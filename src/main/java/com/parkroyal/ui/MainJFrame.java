@@ -321,7 +321,8 @@ public class MainJFrame extends javax.swing.JFrame {
         if (ShareHelper.authenticated()) {
             new NhanVienJFrame().setVisible(true);
         } else {
-            DialogHelper.alert(this, "vui lòng đăng nhập!");
+            DialogHelper.alert(this, "Vui lòng đăng nhập!");
+            new DangNhapJFrame().setVisible(true);
         }
     }
 
