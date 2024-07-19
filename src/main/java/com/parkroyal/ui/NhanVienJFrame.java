@@ -4,11 +4,13 @@
  */
 package com.parkroyal.ui;
 
+import com.parkroyal.dao.ChucVuDAO;
 import com.parkroyal.dao.NhanVienDAO;
 import com.parkroyal.dao.PhongBanDAO;
 import com.parkroyal.helper.DateHelper;
 import com.parkroyal.helper.DialogHelper;
 import com.parkroyal.helper.ShareHelper;
+import com.parkroyal.model.ChucVu;
 import com.parkroyal.model.NhanVien;
 import com.parkroyal.model.PhongBan;
 import java.util.List;
@@ -461,6 +463,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         this.fillComboBoxPB();
+        this.fillComboBoxCV();
     }//GEN-LAST:event_formWindowOpened
 
     private void tblNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhanVienMouseClicked
@@ -630,6 +633,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
     }
     
     PhongBanDAO pbdao = new PhongBanDAO();
+    ChucVuDAO cvdao = new ChucVuDAO();
     
     void fillComboBoxPB() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cboPhongBan.getModel();
@@ -641,6 +645,19 @@ public class NhanVienJFrame extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             DialogHelper.alert(this, "Lỗi truy vấn phòng ban!");
+        }
+    }
+    
+    void fillComboBoxCV() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cboChucVu.getModel();
+        model.removeAllElements();
+        try {
+            List<ChucVu> list = cvdao.select();
+            for (ChucVu cv : list) {
+                model.addElement(cv);
+            }
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn chức vụ!");
         }
     }
     /**
