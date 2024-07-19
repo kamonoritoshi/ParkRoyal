@@ -11,12 +11,13 @@ package com.parkroyal.model;
 public class User {
     private String username;
     private String password;
-    private String hoTen;
+    private String fullName;
+    private String email;
     private boolean role = false;
 
     @Override
     public String toString() {
-        return this.hoTen;
+        return this.fullName;
     }
 
     public String getUsername() {
@@ -35,12 +36,12 @@ public class User {
         this.password = password;
     }
 
-    public String getHoTen() {
-        return hoTen;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setHoTen(String hoTen) {
-        this.hoTen = hoTen;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public boolean isRole() {
@@ -49,6 +50,14 @@ public class User {
 
     public void setRole(boolean role) {
         this.role = role;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
     
 }

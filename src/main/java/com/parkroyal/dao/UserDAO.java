@@ -18,19 +18,21 @@ import java.util.List;
 public class UserDAO {
    
     public void insert(User model) {
-        String sql = "INSERT INTO NguoiDung (Username, Password, HoTen, Role) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO USER (Username, Password, FullName, Email, Role) VALUES (?, ?, ?, ?, ?)";
         JdbcHelper.executeUpdate(sql,
                 model.getUsername(),
                 model.getPassword(),
-                model.getHoTen(),
+                model.getFullName(),
+                model.getEmail(),
                 model.isRole());
     }
     
     public void update(User model) {
-        String sql = "UPDATE NguoiDung SET Password=?, HoTen=?, Role=? WHERE Username=?";
+        String sql = "UPDATE NguoiDung SET Password=?, FullName=?, Email=?, Role=? WHERE Username=?";
         JdbcHelper.executeUpdate(sql,
                 model.getPassword(),
-                model.getHoTen(),
+                model.getFullName(),
+                model.getEmail(),
                 model.isRole(),
                 model.getUsername());
     }
@@ -69,7 +71,7 @@ public class UserDAO {
         User model = new User();
         model.setUsername(rs.getString("Username"));
         model.setPassword(rs.getString("Password"));
-        model.setHoTen(rs.getString("HoTen"));
+        model.setFullName(rs.getString("FullName"));
         model.setRole(rs.getBoolean("Role"));
         return model;
     }
