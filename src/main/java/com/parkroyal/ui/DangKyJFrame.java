@@ -6,7 +6,21 @@ package com.parkroyal.ui;
 
 import com.parkroyal.dao.UserDAO;
 import com.parkroyal.helper.DialogHelper;
+import com.parkroyal.helper.MailSender;
 import com.parkroyal.model.User;
+import java.io.UnsupportedEncodingException;
+import java.util.Properties;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  *
@@ -237,7 +251,20 @@ public class DangKyJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_pwdConfirmPasswordActionPerformed
 
     private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
-        this.signup();
+        try {
+            this.confirm();
+            if (!new ConfirmAccount().isDisplayable()) {
+                if (ConfirmAccount.check()) {
+                    User model = getForm();
+                    dao.insert(model);
+                    DialogHelper.alert(this, "Tạo tài khoản thành công!");
+                } else {
+                    DialogHelper.alert(this, "Tạo tài khoản thất bại!");
+                }
+            }
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(DangKyJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnSignUpActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
@@ -259,9 +286,9 @@ public class DangKyJFrame extends javax.swing.JFrame {
     void init() {
         setLocationRelativeTo(null);
     }
-    
+
     UserDAO dao = new UserDAO();
-    
+
     User getForm() {
         User user = new User();
         user.setUsername(txtUsername.getText());
@@ -271,45 +298,86 @@ public class DangKyJFrame extends javax.swing.JFrame {
         user.setRole(false);
         return user;
     }
-    
-    void signup() {
+
+    void confirm() throws UnsupportedEncodingException {
         String username = txtUsername.getText();
         String password = new String(pwdPassword.getPassword());
         String confirmPassword = new String(pwdConfirmPassword.getPassword());
         String email = txtEmail.getText();
         String fullName = txtHoTen.getText();
-        if (username.equals(null)) {
+        if (username.equals("")) {
             DialogHelper.alert(this, "Thiếu tên đăng nhập!");
-        } else if (password.equals(null)) {
+        } else if (password.equals("")) {
             DialogHelper.alert(this, "Thiếu mật khẩu!");
-        } else if (confirmPassword.equals(null)) {
+        } else if (confirmPassword.equals("")) {
             DialogHelper.alert(this, "Vui lòng xác nhận mật khẩu!");
-        } else if (email.equals(null)) {
+        } else if (email.equals("")) {
             DialogHelper.alert(this, "Thiếu email!");
-        } else if (fullName.equals(null)) {
+        } else if (fullName.equals("")) {
             DialogHelper.alert(this, "Thiếu họ tên!");
         } else if (!password.equals(confirmPassword)) {
             DialogHelper.alert(this, "Xác nhận mật khẩu không đúng!");
         } else if (password.length() < 4) {
             DialogHelper.alert(this, "Mật khẩu quá ngắn!");
         } else {
-            User model = getForm();
-            dao.insert(model);
-            DialogHelper.alert(this, "Tạo tài khoản thành công!");
+            emailSender();
+            new ConfirmAccount().setVisible(true);
         }
     }
-    
+
     void login() {
         new DangNhapJFrame().setVisible(true);
         this.dispose();
     }
-    
+
     void exit() {
         if (DialogHelper.confirm(this, "Bạn thực sự muôn kết thúc?")) {
             this.dispose();
         }
     }
-    
+
+    void emailSender() throws UnsupportedEncodingException {
+        final String user = "parkroyalhcm@gmail.com";
+        final String password = "vjzq rdvo hmdt mmiq";
+
+        Properties prop = new Properties();
+        prop.put("mail.smtp.host", "smtp.gmail.com");
+        prop.put("mail.smtp.port", "587");
+        prop.put("mail.smtp.auth", "true");
+        prop.put("mail.smtp.starttls.enable", "true"); //TLS
+
+        Session session = Session.getInstance(prop, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(user, password);
+            }
+
+        });
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(user, "noreply"));
+            message.setRecipients(
+                    Message.RecipientType.TO,
+                    InternetAddress.parse(txtEmail.getText())
+            );
+            message.setSubject("Xác nhận tài khoản nhân viên PARKROYAL");
+
+            message.setText("Mã xác nhận của bạn là: " + code);
+            MailSender.queue(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static String code = generateCode();
+
+    private static String generateCode() {
+        Random random = new Random();
+        int code = 100000 + random.nextInt(900000); // Tạo mã xác nhận 6 chữ số
+        return String.valueOf(code);
+    }
+
     /**
      * @param args the command line arguments
      */
