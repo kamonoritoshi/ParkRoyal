@@ -59,6 +59,12 @@ public class NhanVienDAO extends MainDAO<NhanVien, Integer>{
         List<NhanVien> list = selectBySql(sql, MaNV);
         return list.size()>0 ? list.get(0) : null;
     }
+    
+    public NhanVien findByHoTen(String HoTen) {
+        String sql = "SELECT * FROM NHANVIEN WHERE HoTen LIKE ?";
+        List<NhanVien> list = selectBySql(sql, HoTen);
+        return list.size()>0 ? list.get(0) : null;
+    }
 
     @Override
     public List<NhanVien> select() {

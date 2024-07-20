@@ -4,6 +4,13 @@
  */
 package com.parkroyal.ui;
 
+import com.parkroyal.dao.PhongBanDAO;
+import com.parkroyal.helper.DialogHelper;
+import com.parkroyal.helper.ShareHelper;
+import com.parkroyal.model.PhongBan;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author HIEU HIEU
@@ -18,9 +25,7 @@ public class PhongBanJFrame extends javax.swing.JFrame {
         init();
     }
     
-    void init() {
-        setLocationRelativeTo(null);
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -32,7 +37,7 @@ public class PhongBanJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         lblTitle = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabs = new javax.swing.JTabbedPane();
         pnlEdit = new javax.swing.JPanel();
         lblMaPB = new javax.swing.JLabel();
         lblTenPB = new javax.swing.JLabel();
@@ -44,8 +49,8 @@ public class PhongBanJFrame extends javax.swing.JFrame {
         txtSoDT = new javax.swing.JTextField();
         btnThem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
-        btnMoi = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
+        btnMoi = new javax.swing.JButton();
         btnFirst = new javax.swing.JButton();
         btnPrev = new javax.swing.JButton();
         btnNext = new javax.swing.JButton();
@@ -93,17 +98,17 @@ public class PhongBanJFrame extends javax.swing.JFrame {
             }
         });
 
-        btnMoi.setText("Xóa");
-        btnMoi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMoiActionPerformed(evt);
-            }
-        });
-
-        btnXoa.setText("Mới");
+        btnXoa.setText("Xóa");
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaActionPerformed(evt);
+            }
+        });
+
+        btnMoi.setText("Mới");
+        btnMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoiActionPerformed(evt);
             }
         });
 
@@ -147,9 +152,9 @@ public class PhongBanJFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -205,15 +210,15 @@ public class PhongBanJFrame extends javax.swing.JFrame {
                         .addComponent(btnNext)
                         .addComponent(btnLast))
                     .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnMoi)
-                        .addComponent(btnXoa))
+                        .addComponent(btnXoa)
+                        .addComponent(btnMoi))
                     .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnThem)
                         .addComponent(btnSua)))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("CẬP NHẬT", pnlEdit);
+        tabs.addTab("CẬP NHẬT", pnlEdit);
 
         tblPhongBan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -227,6 +232,11 @@ public class PhongBanJFrame extends javax.swing.JFrame {
             }
         ));
         tblPhongBan.setEnabled(false);
+        tblPhongBan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblPhongBanMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblPhongBan);
 
         javax.swing.GroupLayout pnlListLayout = new javax.swing.GroupLayout(pnlList);
@@ -246,58 +256,207 @@ public class PhongBanJFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("DANH SÁCH", pnlList);
+        tabs.addTab("DANH SÁCH", pnlList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTabbedPane1)
+            .addComponent(tabs)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(lblTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1))
+                .addComponent(tabs))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
+        this.insert();
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        // TODO add your handling code here:
+        this.update();
     }//GEN-LAST:event_btnSuaActionPerformed
 
-    private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnMoiActionPerformed
-
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        // TODO add your handling code here:
+        this.delete();
     }//GEN-LAST:event_btnXoaActionPerformed
 
+    private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
+        this.clearForm();
+    }//GEN-LAST:event_btnMoiActionPerformed
+
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
-        // TODO add your handling code here:
+        this.first();
     }//GEN-LAST:event_btnFirstActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-        // TODO add your handling code here:
+        this.prev();
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        // TODO add your handling code here:
+        this.next();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
-        // TODO add your handling code here:
+        this.last();
     }//GEN-LAST:event_btnLastActionPerformed
 
+    private void tblPhongBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhongBanMouseClicked
+        if (evt.getClickCount() == 2) {
+            this.row = tblPhongBan.rowAtPoint(evt.getPoint());
+            if (this.row >= 0) {
+                this.edit();
+                tabs.setSelectedIndex(0);
+            }
+        }
+    }//GEN-LAST:event_tblPhongBanMouseClicked
+
+    int row = -1;
+    PhongBanDAO dao = new PhongBanDAO();
+    
+    void init() {
+        setLocationRelativeTo(null);
+        this.fillTable();
+        this.row = -1;
+        this.updateStatus();
+    }
+    
+    void fillTable() {
+        DefaultTableModel model = (DefaultTableModel) tblPhongBan.getModel();
+        model.setRowCount(0);
+        try {
+            List<PhongBan> list = dao.select();
+            for (PhongBan pb : list) {
+                Object[] row = {
+                    pb.getMaPB(),
+                    pb.getTenPB(),
+                    pb.getDiaChi(),
+                    pb.getSoDT()
+                };
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn dữ liệu!");
+        }
+    }
+    
+    void insert() {
+        PhongBan model = getForm();
+        try {
+            dao.insert(model);
+            this.fillTable();
+            this.clearForm();
+            DialogHelper.alert(this, "Thêm mới thành công!");
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Thêm mới thất bại!");
+        }
+    }
+    
+    void update() {
+        PhongBan model = getForm();
+        try {
+            dao.update(model);
+            this.fillTable();
+            DialogHelper.alert(this, "Cập nhật thành công!");
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Cập nhật thất bại!");
+        }
+    }
+    
+    void delete() {
+        if (!ShareHelper.isManager()) {
+            DialogHelper.alert(this, "Bạn không có quyền xóa phòng ban!");
+        } else {
+            if (DialogHelper.confirm(this, "Bạn có muốn xóa hay không?")) {
+                Integer manv = Integer.parseInt(txtMaPB.getText());
+                try {
+                    dao.delete(manv);
+                    this.fillTable();
+                    this.clearForm();
+                    DialogHelper.alert(this, "Xóa thành công!");
+                } catch (Exception e) {
+                    DialogHelper.alert(this, "Xóa thất bại!");
+                }
+            }
+        }
+    }
+    
+    void clearForm() {
+        this.setForm(new PhongBan());
+        this.row = -1;
+        this.updateStatus();
+    }
+    
+    void edit() {
+        Integer manv = (Integer) tblPhongBan.getValueAt(this.row, 0);
+        PhongBan pb = dao.findById(manv);
+        this.setForm(pb);
+        this.updateStatus();
+        tabs.setSelectedIndex(0);
+    }
+    
+    void setForm(PhongBan pb) {
+        txtMaPB.setText(String.valueOf(pb.getMaPB()));
+        txtTenPB.setText(pb.getTenPB());
+        txaDiaChi.setText(pb.getDiaChi());
+        txtSoDT.setText(pb.getSoDT());
+    }
+    
+    PhongBan getForm() {
+        PhongBan pb = new PhongBan();
+        pb.setMaPB(Integer.valueOf(txtMaPB.getText()));
+        pb.setTenPB(txtTenPB.getText());
+        pb.setDiaChi(txaDiaChi.getText());
+        pb.setSoDT(txtSoDT.getText());
+        return pb;
+    }
+    
+    void first() {
+        this.row = 0;
+        this.edit();
+    }
+    void prev() {
+        if (this.row > 0) {
+            this.row--;
+            this.edit();
+        }
+    }
+    void next() {
+        if (this.row < tblPhongBan.getRowCount() - 1) {
+            this.row++;
+            this.edit();
+        }
+    }
+    void last() {
+        this.row = tblPhongBan.getRowCount() - 1;
+        this.edit();
+    }
+    
+    void updateStatus() {
+        boolean edit = (this.row >= 0);
+        boolean first = (this.row == 0);
+        boolean last = (this.row == tblPhongBan.getRowCount() - 1);
+        // Trạng thái form
+        txtMaPB.setEditable(!edit);
+        btnThem.setEnabled(!edit);
+        btnSua.setEnabled(edit);
+        btnXoa.setEnabled(edit);
+        // Trạng thái điều hướng
+        btnFirst.setEnabled(edit && !first);
+        btnPrev.setEnabled(edit && !first);
+        btnNext.setEnabled(edit && !last);
+        btnLast.setEnabled(edit && !last);
+    }
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -345,7 +504,6 @@ public class PhongBanJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnXoa;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblDiaChi;
     private javax.swing.JLabel lblMaPB;
     private javax.swing.JLabel lblSoDT;
@@ -353,6 +511,7 @@ public class PhongBanJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitle;
     private javax.swing.JPanel pnlEdit;
     private javax.swing.JPanel pnlList;
+    private javax.swing.JTabbedPane tabs;
     private javax.swing.JTable tblPhongBan;
     private javax.swing.JTextArea txaDiaChi;
     private javax.swing.JTextField txtMaPB;

@@ -26,11 +26,11 @@ public class MainJFrame extends javax.swing.JFrame {
         initComponents();
         init();
     }
-    
+
     void init() {
         this.setExtendedState(MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
-        
+
         new Timer(1000, new ActionListener() {
             SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss a");
 
@@ -140,6 +140,11 @@ public class MainJFrame extends javax.swing.JFrame {
         btnDangXuat.setBackground(new java.awt.Color(0, 229, 255));
         btnDangXuat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/parkroyal/icon/dang-xuat.png"))); // NOI18N
         btnDangXuat.setText("Đăng Xuất");
+        btnDangXuat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDangXuatActionPerformed(evt);
+            }
+        });
 
         btnNhanVien.setBackground(new java.awt.Color(0, 229, 255));
         btnNhanVien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/parkroyal/icon/id-card-regular.png"))); // NOI18N
@@ -239,32 +244,39 @@ public class MainJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnDoiMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoiMatKhauActionPerformed
-        new DoiMatKhauJFrame().setVisible(true);
+        openDoiMatKhau();
     }//GEN-LAST:event_btnDoiMatKhauActionPerformed
 
     private void btnLuongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuongActionPerformed
-        new LuongJFrame().setVisible(true);
+        openLuong();
     }//GEN-LAST:event_btnLuongActionPerformed
 
     private void btnTuyenDungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTuyenDungActionPerformed
-        new TuyenDungJFrame().setVisible(true);
+        openTuyenDung();
     }//GEN-LAST:event_btnTuyenDungActionPerformed
 
     private void btnBangCapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBangCapActionPerformed
-        new HocVanJFrame().setVisible(true);
+        openBangCap();
     }//GEN-LAST:event_btnBangCapActionPerformed
 
     private void btnPhongBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPhongBanActionPerformed
-        new PhongBanJFrame().setVisible(true);
+        openPhongBan();
     }//GEN-LAST:event_btnPhongBanActionPerformed
 
     private void btnHopDongLaoDongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHopDongLaoDongActionPerformed
-        new HopDongLaoDongJFrame().setVisible(true);
+        openHDLD();
     }//GEN-LAST:event_btnHopDongLaoDongActionPerformed
 
     private void btnPhongVanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPhongVanActionPerformed
-        new PhongVanJFrame().setVisible(true);
+        openPhongVan();
     }//GEN-LAST:event_btnPhongVanActionPerformed
+
+    private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
+        if (DialogHelper.confirm(this, "Bạn có muốn đăng xuất không?")) {
+            ShareHelper.logoff();
+            new DangNhapJFrame().setVisible(true);
+        }
+    }//GEN-LAST:event_btnDangXuatActionPerformed
 
     /**
      * @param args the command line arguments
@@ -300,28 +312,98 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
     }
-    
+
     void openLogin() {
         new DangNhapJFrame().setVisible(true);
     }
-    
-    void logoff() {
-        ShareHelper.logoff();
-        this.openLogin();
-    }
-    
+
     void exit() {
         if (DialogHelper.confirm(this, "Bạn thực sự muốn kết thúc?")) {
             System.exit(0);
         }
     }
-    
+
     void openNhanVien() {
         if (ShareHelper.authenticated()) {
             new NhanVienJFrame().setVisible(true);
         } else {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
-            new DangNhapJFrame().setVisible(true);
+            openLogin();
+        }
+    }
+    
+    void openLuong() {
+        if (ShareHelper.authenticated()) {
+            new LuongJFrame().setVisible(true);
+        } else {
+            DialogHelper.alert(this, "Vui lòng đăng nhập!");
+            openLogin();
+        }
+    }
+    
+    void openPhongBan() {
+        if (ShareHelper.authenticated()) {
+            new PhongBanJFrame().setVisible(true);
+        } else {
+            DialogHelper.alert(this, "Vui lòng đăng nhập!");
+            openLogin();
+        }
+    }
+    
+    void openBangCap() {
+        if (ShareHelper.authenticated()) {
+            new HocVanJFrame().setVisible(true);
+        } else {
+            DialogHelper.alert(this, "Vui lòng đăng nhập!");
+            openLogin();
+        }
+    }
+    
+    void openHDLD() {
+        if (ShareHelper.authenticated()) {
+            if (ShareHelper.USER.isRole()) {
+                new HopDongLaoDongJFrame().setVisible(true);
+            } else {
+                DialogHelper.alert(this, "Chỉ trưởng phòng mới được phép truy cập!");
+            }
+        } else {
+            DialogHelper.alert(this, "Vui lòng đăng nhập!");
+            openLogin();
+        }
+    }
+    
+    void openTuyenDung() {
+        if (ShareHelper.authenticated()) {
+            if (ShareHelper.USER.isRole()) {
+                new TuyenDungJFrame().setVisible(true);
+            } else {
+                DialogHelper.alert(this, "Chỉ trưởng phòng mới được phép truy cập!");
+            }
+        } else {
+            DialogHelper.alert(this, "Vui lòng đăng nhập!");
+            openLogin();
+        }
+    }
+    
+    void openPhongVan() {
+        if (ShareHelper.authenticated()) {
+            if (ShareHelper.USER.isRole()) {
+                new PhongVanJFrame().setVisible(true);
+            } else {
+                DialogHelper.alert(this, "Chỉ trưởng phòng mới được phép truy cập!");
+            }
+        } else {
+            DialogHelper.alert(this, "Vui lòng đăng nhập!");
+            openLogin();
+        }
+    }
+    
+    void openDoiMatKhau() {
+        if (ShareHelper.authenticated()) {
+            new DoiMatKhauJFrame().setVisible(true);
+        } else {
+            DialogHelper.alert(this, "Vui lòng đăng nhập!");
+            openLogin();
         }
     }
 

@@ -4,6 +4,10 @@
  */
 package com.parkroyal.ui;
 
+import com.parkroyal.dao.UserDAO;
+import com.parkroyal.helper.DialogHelper;
+import com.parkroyal.helper.ShareHelper;
+
 /**
  *
  * @author HIEU HIEU
@@ -35,13 +39,13 @@ public class DoiMatKhauJFrame extends javax.swing.JFrame {
         lblTaiKhoan = new javax.swing.JLabel();
         txtTaiKhoan = new javax.swing.JTextField();
         lblMKCu = new javax.swing.JLabel();
-        txtMKCu = new javax.swing.JTextField();
         lblMKMoi = new javax.swing.JLabel();
-        txtMKMoi = new javax.swing.JTextField();
         lblXacNhanMK = new javax.swing.JLabel();
-        txtXacNhanMK = new javax.swing.JTextField();
         btnXong = new javax.swing.JButton();
         btnHuy = new javax.swing.JButton();
+        pwdOldPass = new javax.swing.JPasswordField();
+        pwdNewPass = new javax.swing.JPasswordField();
+        pwdConfirmNewPass = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Đổi Mật Khẩu");
@@ -90,20 +94,15 @@ public class DoiMatKhauJFrame extends javax.swing.JFrame {
             .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(73, 73, 73)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lblTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(txtTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(lblMKMoi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGap(18, 18, 18)
-                            .addComponent(txtMKMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(lblMKCu, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(txtMKCu, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblMKMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(pwdNewPass))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -113,8 +112,14 @@ public class DoiMatKhauJFrame extends javax.swing.JFrame {
                                 .addComponent(btnXong)
                                 .addGap(27, 27, 27)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnHuy)
-                            .addComponent(txtXacNhanMK, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnHuy)
+                                .addGap(88, 88, 88))
+                            .addComponent(pwdConfirmNewPass)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblMKCu, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(pwdOldPass)))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -128,15 +133,15 @@ public class DoiMatKhauJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMKCu)
-                    .addComponent(txtMKCu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pwdOldPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMKMoi)
-                    .addComponent(txtMKMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pwdNewPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtXacNhanMK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblXacNhanMK))
+                    .addComponent(lblXacNhanMK)
+                    .addComponent(pwdConfirmNewPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnXong)
@@ -148,7 +153,7 @@ public class DoiMatKhauJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnXongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXongActionPerformed
-        // TODO add your handling code here:
+        this.doiMatKhau();
     }//GEN-LAST:event_btnXongActionPerformed
 
     private void txtTaiKhoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTaiKhoanActionPerformed
@@ -156,9 +161,31 @@ public class DoiMatKhauJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTaiKhoanActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
-        
+        this.dispose();
     }//GEN-LAST:event_btnHuyActionPerformed
 
+    UserDAO dao = new UserDAO();
+    
+    private void doiMatKhau() {
+        String username = txtTaiKhoan.getText();
+        String oldPass = new String(pwdOldPass.getPassword());
+        String newPass = new String(pwdNewPass.getPassword());
+        String confirmNewPass = new String(pwdConfirmNewPass.getPassword());
+        
+        if (!username.equalsIgnoreCase(ShareHelper.USER.getUsername())) {
+            DialogHelper.alert(this, "Sai tên đăng nhập!");
+        } else if (!oldPass.equals(ShareHelper.USER.getPassword())) {
+            DialogHelper.alert(this, "Sai mật khẩu!");
+        } else if(!newPass.equals(confirmNewPass)) {
+            DialogHelper.alert(this, "Xác nhận mật khẩu không đúng!");
+        } else {
+            ShareHelper.USER.setPassword(newPass);
+            dao.update(ShareHelper.USER);
+            DialogHelper.alert(this, "Đổi mật khẩu thành công!");
+            this.dispose();
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -208,9 +235,9 @@ public class DoiMatKhauJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblTaiKhoan;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblXacNhanMK;
-    private javax.swing.JTextField txtMKCu;
-    private javax.swing.JTextField txtMKMoi;
+    private javax.swing.JPasswordField pwdConfirmNewPass;
+    private javax.swing.JPasswordField pwdNewPass;
+    private javax.swing.JPasswordField pwdOldPass;
     private javax.swing.JTextField txtTaiKhoan;
-    private javax.swing.JTextField txtXacNhanMK;
     // End of variables declaration//GEN-END:variables
 }

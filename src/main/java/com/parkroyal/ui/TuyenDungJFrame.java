@@ -4,6 +4,14 @@
  */
 package com.parkroyal.ui;
 
+import com.parkroyal.dao.TuyenDungDAO;
+import com.parkroyal.helper.DateHelper;
+import com.parkroyal.helper.DialogHelper;
+import com.parkroyal.helper.ShareHelper;
+import com.parkroyal.model.TuyenDung;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author HIEU HIEU
@@ -17,10 +25,6 @@ public class TuyenDungJFrame extends javax.swing.JFrame {
         initComponents();
         init();
     }
-    
-    void init() {
-        setLocationRelativeTo(null);
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -33,7 +37,7 @@ public class TuyenDungJFrame extends javax.swing.JFrame {
 
         bgGender = new javax.swing.ButtonGroup();
         lblTitle = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabs = new javax.swing.JTabbedPane();
         pnlEdit = new javax.swing.JPanel();
         lblHoTen = new javax.swing.JLabel();
         txtHoTen = new javax.swing.JTextField();
@@ -83,14 +87,14 @@ public class TuyenDungJFrame extends javax.swing.JFrame {
             }
         });
 
-        btnMoi.setText("Xóa");
+        btnMoi.setText("Mới");
         btnMoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMoiActionPerformed(evt);
             }
         });
 
-        btnXoa.setText("Mới");
+        btnXoa.setText("Xóa");
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaActionPerformed(evt);
@@ -170,9 +174,9 @@ public class TuyenDungJFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -223,19 +227,19 @@ public class TuyenDungJFrame extends javax.swing.JFrame {
                 .addGap(71, 71, 71)
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnMoi)
-                        .addComponent(btnXoa)
                         .addComponent(btnFirst)
                         .addComponent(btnPrev)
                         .addComponent(btnNext)
                         .addComponent(btnLast))
                     .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnThem)
-                        .addComponent(btnSua)))
+                        .addComponent(btnSua)
+                        .addComponent(btnXoa)
+                        .addComponent(btnMoi)))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("CẬP NHẬT", pnlEdit);
+        tabs.addTab("CẬP NHẬT", pnlEdit);
 
         tblTuyenDung.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -249,6 +253,11 @@ public class TuyenDungJFrame extends javax.swing.JFrame {
             }
         ));
         tblTuyenDung.setEnabled(false);
+        tblTuyenDung.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblTuyenDungMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblTuyenDung);
 
         javax.swing.GroupLayout pnlListLayout = new javax.swing.GroupLayout(pnlList);
@@ -268,62 +277,217 @@ public class TuyenDungJFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("DANH SÁCH", pnlList);
+        tabs.addTab("DANH SÁCH", pnlList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTabbedPane1)
+            .addComponent(tabs)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(lblTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1))
+                .addComponent(tabs))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
+        this.insert();
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        // TODO add your handling code here:
+        this.update();
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
-        // TODO add your handling code here:
+        this.clearForm();
     }//GEN-LAST:event_btnMoiActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        // TODO add your handling code here:
+        this.delete();
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
-        // TODO add your handling code here:
+        this.first();
     }//GEN-LAST:event_btnFirstActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-        // TODO add your handling code here:
+        this.prev();
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        // TODO add your handling code here:
+        this.next();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
-        // TODO add your handling code here:
+        this.last();
     }//GEN-LAST:event_btnLastActionPerformed
 
     private void rdoNuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoNuActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rdoNuActionPerformed
 
+    private void tblTuyenDungMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTuyenDungMouseClicked
+        if (evt.getClickCount() == 2) {
+            this.row = tblTuyenDung.rowAtPoint(evt.getPoint());
+            if (this.row >= 0) {
+                this.edit();
+                tabs.setSelectedIndex(0);
+            }
+        }
+    }//GEN-LAST:event_tblTuyenDungMouseClicked
+
+    int row = -1;
+    TuyenDungDAO dao = new TuyenDungDAO();
+    
+    void init() {
+        setLocationRelativeTo(null);
+        this.fillTable();
+        this.row = -1;
+        this.updateStatus();
+    }
+    
+    void fillTable() {
+        DefaultTableModel model = (DefaultTableModel) tblTuyenDung.getModel();
+        model.setRowCount(0);
+        try {
+            List<TuyenDung> list = dao.select();
+            for (TuyenDung td : list) {
+                Object[] row = {
+                    td.getMaTD(),
+                    td.getHoTen(),
+                    td.isGioiTinh() ? "Nam" : "Nữ",
+                    DateHelper.toString(td.getNgaySinh(), "yyyy/MM/dd"),
+                    DateHelper.toString(td.getNgayNopHS(), "yyyy/MM/dd")
+                };
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn dữ liệu!");
+        }
+    }
+    
+    void insert() {
+        TuyenDung model = getForm();
+        try {
+            dao.insert(model);
+            this.fillTable();
+            this.clearForm();
+            DialogHelper.alert(this, "Thêm mới thành công!");
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Thêm mới thất bại!");
+        }
+    }
+    
+    void update() {
+        TuyenDung model = getForm();
+        try {
+            dao.update(model);
+            this.fillTable();
+            DialogHelper.alert(this, "Cập nhật thành công!");
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Cập nhật thất bại!");
+        }
+    }
+    
+    void delete() {
+        if (!ShareHelper.isManager()) {
+            DialogHelper.alert(this, "Bạn không có quyền xóa nhân viên!");
+        } else {
+            if (DialogHelper.confirm(this, "Bạn có muốn xóa hay không?")) {
+                Integer manv = Integer.parseInt(txtMaTD.getText());
+                try {
+                    dao.delete(manv);
+                    this.fillTable();
+                    this.clearForm();
+                    DialogHelper.alert(this, "Xóa thành công!");
+                } catch (Exception e) {
+                    DialogHelper.alert(this, "Xóa thất bại!");
+                }
+            }
+        }
+    }
+    
+    void clearForm() {
+        this.setForm(new TuyenDung());
+        this.row = -1;
+        this.updateStatus();
+    }
+    
+    void edit() {
+        Integer MaTD = (Integer) tblTuyenDung.getValueAt(this.row, 0);
+        TuyenDung td = dao.findById(MaTD);
+        this.setForm(td);
+        this.updateStatus();
+        tabs.setSelectedIndex(0);
+    }
+    
+    void setForm(TuyenDung td) {
+        txtMaTD.setText(String.valueOf(td.getMaTD()));
+        txtHoTen.setText(td.getHoTen());
+        rdoNam.setSelected(td.isGioiTinh());
+        rdoNu.setSelected(!td.isGioiTinh());
+        txtNgaySinh.setText(DateHelper.toString(td.getNgaySinh(), "dd/MM/yyyy"));
+        txtNgayNopHS.setText(DateHelper.toString(td.getNgayNopHS(), "dd/MM/yyyy"));
+    }
+    
+    TuyenDung getForm() {
+        TuyenDung td = new TuyenDung();
+        td.setMaTD(Integer.valueOf(txtMaTD.getText()));
+        td.setHoTen(txtHoTen.getText());
+        if (rdoNam.isSelected()) {
+            td.setGioiTinh(true);
+        } else {
+            td.setGioiTinh(false);
+        }
+        td.setNgaySinh(DateHelper.toDate(txtNgaySinh.getText(), "yyyy/MM/dd"));
+        td.setNgayNopHS(DateHelper.toDate(txtNgayNopHS.getText(), "yyyy/MM/dd"));
+        return td;
+    }
+    
+    void first() {
+        this.row = 0;
+        this.edit();
+    }
+    void prev() {
+        if (this.row > 0) {
+            this.row--;
+            this.edit();
+        }
+    }
+    void next() {
+        if (this.row < tblTuyenDung.getRowCount() - 1) {
+            this.row++;
+            this.edit();
+        }
+    }
+    void last() {
+        this.row = tblTuyenDung.getRowCount() - 1;
+        this.edit();
+    }
+    
+    void updateStatus() {
+        boolean edit = (this.row >= 0);
+        boolean first = (this.row == 0);
+        boolean last = (this.row == tblTuyenDung.getRowCount() - 1);
+        // Trạng thái form
+        txtMaTD.setEditable(!edit);
+        btnThem.setEnabled(!edit);
+        btnSua.setEnabled(edit);
+        btnMoi.setEnabled(edit);
+        // Trạng thái điều hướng
+        btnFirst.setEnabled(edit && !first);
+        btnPrev.setEnabled(edit && !first);
+        btnNext.setEnabled(edit && !last);
+        btnLast.setEnabled(edit && !last);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -370,7 +534,6 @@ public class TuyenDungJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnXoa;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblGioiTinh;
     private javax.swing.JLabel lblHoTen;
     private javax.swing.JLabel lblMaTD;
@@ -381,6 +544,7 @@ public class TuyenDungJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel pnlList;
     private javax.swing.JRadioButton rdoNam;
     private javax.swing.JRadioButton rdoNu;
+    private javax.swing.JTabbedPane tabs;
     private javax.swing.JTable tblTuyenDung;
     private javax.swing.JTextField txtHoTen;
     private javax.swing.JTextField txtMaTD;

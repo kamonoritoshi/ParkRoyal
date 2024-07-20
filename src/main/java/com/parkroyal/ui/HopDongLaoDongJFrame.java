@@ -4,6 +4,16 @@
  */
 package com.parkroyal.ui;
 
+import com.parkroyal.dao.ChucVuDAO;
+import com.parkroyal.dao.HopDongLaoDongDAO;
+import com.parkroyal.dao.NhanVienDAO;
+import com.parkroyal.dao.PhongBanDAO;
+import com.parkroyal.helper.DateHelper;
+import com.parkroyal.helper.DialogHelper;
+import com.parkroyal.model.HopDongLaoDong;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author HIEU HIEU
@@ -17,10 +27,6 @@ public class HopDongLaoDongJFrame extends javax.swing.JFrame {
         initComponents();
         init();
     }
-    
-    void init() {
-        setLocationRelativeTo(null);
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -32,7 +38,7 @@ public class HopDongLaoDongJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         lblTitle = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabs = new javax.swing.JTabbedPane();
         pnlEdit = new javax.swing.JPanel();
         lblMaCV = new javax.swing.JLabel();
         lblMaNV = new javax.swing.JLabel();
@@ -45,7 +51,6 @@ public class HopDongLaoDongJFrame extends javax.swing.JFrame {
         btnThem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
         btnMoi = new javax.swing.JButton();
-        btnXoa = new javax.swing.JButton();
         btnFirst = new javax.swing.JButton();
         btnPrev = new javax.swing.JButton();
         btnNext = new javax.swing.JButton();
@@ -94,17 +99,10 @@ public class HopDongLaoDongJFrame extends javax.swing.JFrame {
             }
         });
 
-        btnMoi.setText("Xóa");
+        btnMoi.setText("Mới");
         btnMoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMoiActionPerformed(evt);
-            }
-        });
-
-        btnXoa.setText("Mới");
-        btnXoa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXoaActionPerformed(evt);
             }
         });
 
@@ -139,11 +137,17 @@ public class HopDongLaoDongJFrame extends javax.swing.JFrame {
         lblHoTen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblHoTen.setText("Họ và tên:");
 
+        txtHoTen.setEditable(false);
+
         lblChucVu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblChucVu.setText("Chức vụ:");
 
+        txtChucVu.setEditable(false);
+
         lblPhongBan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPhongBan.setText("Phòng ban:");
+
+        txtPhongBan.setEditable(false);
 
         javax.swing.GroupLayout pnlEditLayout = new javax.swing.GroupLayout(pnlEdit);
         pnlEdit.setLayout(pnlEditLayout);
@@ -165,14 +169,12 @@ public class HopDongLaoDongJFrame extends javax.swing.JFrame {
                             .addComponent(lblHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(txtHoTen))
-                        .addGroup(pnlEditLayout.createSequentialGroup()
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEditLayout.createSequentialGroup()
                             .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btnMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -233,27 +235,30 @@ public class HopDongLaoDongJFrame extends javax.swing.JFrame {
                         .addComponent(btnLast))
                     .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnMoi)
-                        .addComponent(btnXoa))
-                    .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnThem)
                         .addComponent(btnSua)))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("CẬP NHẬT", pnlEdit);
+        tabs.addTab("CẬP NHẬT", pnlEdit);
 
         tblHopDongLaoDong.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Mã chức vụ", "Mã nhân viên", "Họ và tên", "Ngày ký", "Ngày bắt đầu làm", "Chức vụ", "Phòng ban"
+                "Mã chức vụ", "Mã nhân viên", "Ngày ký", "Ngày bắt đầu làm"
             }
         ));
         tblHopDongLaoDong.setEnabled(false);
+        tblHopDongLaoDong.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblHopDongLaoDongMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblHopDongLaoDong);
 
         javax.swing.GroupLayout pnlListLayout = new javax.swing.GroupLayout(pnlList);
@@ -273,58 +278,199 @@ public class HopDongLaoDongJFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("DANH SÁCH", pnlList);
+        tabs.addTab("DANH SÁCH", pnlList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTabbedPane1)
+            .addComponent(tabs)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(lblTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1))
+                .addComponent(tabs))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
+        this.insert();
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        // TODO add your handling code here:
+        this.update();
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
-        // TODO add your handling code here:
+        this.clearForm();
     }//GEN-LAST:event_btnMoiActionPerformed
 
-    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnXoaActionPerformed
-
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
-        // TODO add your handling code here:
+        this.first();
     }//GEN-LAST:event_btnFirstActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-        // TODO add your handling code here:
+        this.prev();
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        // TODO add your handling code here:
+        this.next();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
-        // TODO add your handling code here:
+        this.last();
     }//GEN-LAST:event_btnLastActionPerformed
 
+    private void tblHopDongLaoDongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHopDongLaoDongMouseClicked
+        if (evt.getClickCount() == 2) {
+            this.row = tblHopDongLaoDong.rowAtPoint(evt.getPoint());
+            if (this.row >= 0) {
+                this.edit();
+                tabs.setSelectedIndex(0);
+            }
+        }
+    }//GEN-LAST:event_tblHopDongLaoDongMouseClicked
+
+    int row = -1;
+    HopDongLaoDongDAO dao = new HopDongLaoDongDAO();
+    
+    void init() {
+        setLocationRelativeTo(null);
+        this.fillTable();
+        this.row = -1;
+        this.updateStatus();
+    }
+    
+    void fillTable() {
+        DefaultTableModel model = (DefaultTableModel) tblHopDongLaoDong.getModel();
+        model.setRowCount(0);
+        try {
+            List<HopDongLaoDong> list = dao.select();
+            for (HopDongLaoDong hdld : list) {
+                Object[] row = {
+                    hdld.getMaCV(),
+                    hdld.getMaNV(),
+                    DateHelper.toString(hdld.getNgayKy(), "yyyy/MM/dd"),
+                    DateHelper.toString(hdld.getNgayBDLV(), "yyyy/MM/dd")
+                };
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn dữ liệu!");
+        }
+    }
+    
+    void insert() {
+        HopDongLaoDong model = getForm();
+        try {
+            dao.insert(model);
+            this.fillTable();
+            this.clearForm();
+            DialogHelper.alert(this, "Thêm mới thành công!");
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Thêm mới thất bại!");
+        }
+    }
+    
+    void update() {
+        HopDongLaoDong model = getForm();
+        try {
+            dao.update(model);
+            this.fillTable();
+            DialogHelper.alert(this, "Cập nhật thành công!");
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Cập nhật thất bại!");
+        }
+    }
+    
+    void clearForm() {
+        txtMaCV.setText("");
+        txtMaNV.setText("");
+        txtHoTen.setText("");
+        txtNgayKy.setText("");
+        txtNgayBDLV.setText("");
+        txtChucVu.setText("");
+        txtPhongBan.setText("");
+        this.row = -1;
+        this.updateStatus();
+    }
+    
+    void edit() {
+        Integer MaCV = (Integer) tblHopDongLaoDong.getValueAt(this.row, 0);
+        Integer MaNV = (Integer) tblHopDongLaoDong.getValueAt(this.row, 1);
+        HopDongLaoDong hdld = dao.findById(MaCV, MaNV);
+        this.setForm(hdld);
+        this.updateStatus();
+        tabs.setSelectedIndex(0);
+    }
+    
+    NhanVienDAO nvdao = new NhanVienDAO();
+    ChucVuDAO cvdao = new ChucVuDAO();
+    PhongBanDAO pbdao = new PhongBanDAO();
+    
+    void setForm(HopDongLaoDong hdld) {
+        txtMaCV.setText(String.valueOf(hdld.getMaCV()));
+        txtMaNV.setText(String.valueOf(hdld.getMaNV()));
+        txtHoTen.setText(nvdao.findById(hdld.getMaNV()).getHoTen());
+        txtNgayKy.setText(DateHelper.toString(hdld.getNgayKy(), "dd/MM/yyyy"));
+        txtNgayBDLV.setText(DateHelper.toString(hdld.getNgayBDLV(), "dd/MM/yyyy"));
+        txtChucVu.setText(cvdao.findById(hdld.getMaCV()).getTenCV());
+        txtPhongBan.setText(pbdao.findById(nvdao.findById(hdld.getMaNV()).getMaPB()).getTenPB());
+    }
+    
+    HopDongLaoDong getForm() {
+        HopDongLaoDong hdld = new HopDongLaoDong();
+        hdld.setNgayKy(DateHelper.toDate(txtNgayKy.getText(), "yyyy/MM/dd"));
+        hdld.setNgayBDLV(DateHelper.toDate(txtNgayBDLV.getText(), "yyyy/MM/dd"));
+        hdld.setMaCV(Integer.parseInt(txtMaCV.getText()));
+        hdld.setMaNV(Integer.parseInt(txtMaNV.getText()));
+        return hdld;
+    }
+    
+    void first() {
+        this.row = 0;
+        this.edit();
+    }
+    void prev() {
+        if (this.row > 0) {
+            this.row--;
+            this.edit();
+        }
+    }
+    void next() {
+        if (this.row < tblHopDongLaoDong.getRowCount() - 1) {
+            this.row++;
+            this.edit();
+        }
+    }
+    void last() {
+        this.row = tblHopDongLaoDong.getRowCount() - 1;
+        this.edit();
+    }
+    
+    void updateStatus() {
+        boolean edit = (this.row >= 0);
+        boolean first = (this.row == 0);
+        boolean last = (this.row == tblHopDongLaoDong.getRowCount() - 1);
+        // Trạng thái form
+        txtMaCV.setEditable(!edit);
+        btnThem.setEnabled(!edit);
+        btnSua.setEnabled(edit);
+        btnMoi.setEnabled(edit);
+        // Trạng thái điều hướng
+        btnFirst.setEnabled(edit && !first);
+        btnPrev.setEnabled(edit && !first);
+        btnNext.setEnabled(edit && !last);
+        btnLast.setEnabled(edit && !last);
+    }
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -369,9 +515,7 @@ public class HopDongLaoDongJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnPrev;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnXoa;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblChucVu;
     private javax.swing.JLabel lblHoTen;
     private javax.swing.JLabel lblMaCV;
@@ -382,6 +526,7 @@ public class HopDongLaoDongJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitle;
     private javax.swing.JPanel pnlEdit;
     private javax.swing.JPanel pnlList;
+    private javax.swing.JTabbedPane tabs;
     private javax.swing.JTable tblHopDongLaoDong;
     private javax.swing.JTextField txtChucVu;
     private javax.swing.JTextField txtHoTen;
