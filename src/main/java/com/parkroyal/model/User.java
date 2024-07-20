@@ -44,6 +44,14 @@ public class User {
         this.fullName = fullName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
     public boolean isRole() {
         return role;
     }
@@ -52,12 +60,6 @@ public class User {
         this.role = role;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    
     
 }

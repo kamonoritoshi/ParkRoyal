@@ -47,6 +47,7 @@ public class DangNhapJFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Đăng Nhập");
         setAlwaysOnTop(true);
+        setResizable(false);
 
         lblTitle.setFont(new java.awt.Font("Montserrat", 1, 24)); // NOI18N
         lblTitle.setText("Đăng Nhập");
@@ -229,8 +230,8 @@ public class DangNhapJFrame extends javax.swing.JFrame {
             DialogHelper.alert(this, "Sai tên đăng nhập!");
         } else if (password.length() == 0) {
             DialogHelper.alert(this, "Vui lòng nhập mật khẩu!");
-        } else if (!password.equals(user.getPassword())) {
-            DialogHelper.alert(this, "Sai mật khẩu!");
+        } else if (!password.equals(user.getPassword()) || !username.equals(user.getUsername())) {
+            DialogHelper.alert(this, "Sai tên đăng nhập hoặc mật khẩu!");
         } else {
             ShareHelper.USER = user;
             this.dispose();
@@ -238,8 +239,7 @@ public class DangNhapJFrame extends javax.swing.JFrame {
     }
     
     void signup() {
-        new DangKyJFrame().setVisible(true);
-        this.dispose();
+        
     }
     
     void exit() {

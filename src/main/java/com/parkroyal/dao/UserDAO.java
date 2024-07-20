@@ -16,9 +16,9 @@ import java.util.List;
  * @author HIEU HIEU
  */
 public class UserDAO {
-   
+
     public void insert(User model) {
-        String sql = "INSERT INTO USER (Username, Password, FullName, Email, Role) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO NGUOIDUNG (Username, Password, FullName, Email, Role) VALUES (?, ?, ?, ?, ?)";
         JdbcHelper.executeUpdate(sql,
                 model.getUsername(),
                 model.getPassword(),
@@ -26,9 +26,9 @@ public class UserDAO {
                 model.getEmail(),
                 model.isRole());
     }
-    
+
     public void update(User model) {
-        String sql = "UPDATE USEr SET Password=?, FullName=?, Email=?, Role=? WHERE Username=?";
+        String sql = "UPDATE NGUOIDUNG SET Password=?, FullName=?, Email=?, Role=? WHERE Username=?";
         JdbcHelper.executeUpdate(sql,
                 model.getPassword(),
                 model.getFullName(),
@@ -36,45 +36,43 @@ public class UserDAO {
                 model.isRole(),
                 model.getUsername());
     }
-    
+
     public void delete(String Username) {
-        String sql = "DELETE FROM USER WHERE Username=?";
+        String sql = "DELETE FROM NGUOIDUNG WHERE Username=?";
         JdbcHelper.executeUpdate(sql, Username);
     }
-    
+
     public User findById(String Username) {
-        String sql = "SELECT * FROM USER WHERE Username = ?";
+        String sql = "SELECT * FROM NGUOIDUNG WHERE Username=?";
         List<User> list = select(sql, Username);
         return list.size() > 0 ? list.get(0) : null;
     }
-    
-    private List<User> select(String sql, Object... args) {
+
+    protected List<User> select(String sql, Object... args) {
         List<User> list = new ArrayList<>();
+        ResultSet rs = null;
         try {
-            ResultSet rs = null;
-            try {
-                rs = JdbcHelper.executeQuery(sql, args);
-                while (rs.next()) {
-                    User model = readFromResultSet(rs);
-                    list.add(model);
-                }
-            } finally {
-                rs.getStatement().getConnection().close();
+            rs = JdbcHelper.executeQuery(sql, args);
+            while (rs.next()) {
+                User entity = new User();
+                entity.setUsername(rs.getString("Username"));
+                entity.setPassword(rs.getString("Password"));
+                entity.setFullName(rs.getString("FullName"));
+                entity.setEmail(rs.getString("Email"));
+                entity.setRole(rs.getBoolean("Role"));
+                list.add(entity);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.getStatement().getConnection().close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
         return list;
     }
-    
-    private User readFromResultSet(ResultSet rs) throws SQLException {
-        User model = new User();
-        model.setUsername(rs.getString("Username"));
-        model.setPassword(rs.getString("Password"));
-        model.setFullName(rs.getString("FullName"));
-        model.setEmail(rs.getString("Email"));
-        model.setRole(rs.getBoolean("Role"));
-        return model;
-    }
-    
 }
