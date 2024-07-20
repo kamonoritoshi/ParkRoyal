@@ -69,7 +69,6 @@ public class MainJFrame extends javax.swing.JFrame {
         setTitle("Quản Lý Nhân Sự Khách Sạn PARKROYAL SAIGON");
         setBackground(new java.awt.Color(255, 255, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setPreferredSize(new java.awt.Dimension(1920, 987));
 
         pnlMenu.setBackground(new java.awt.Color(0, 255, 255));
         pnlMenu.setPreferredSize(new java.awt.Dimension(192, 669));

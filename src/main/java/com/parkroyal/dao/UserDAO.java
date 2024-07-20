@@ -28,7 +28,7 @@ public class UserDAO {
     }
     
     public void update(User model) {
-        String sql = "UPDATE NguoiDung SET Password=?, FullName=?, Email=?, Role=? WHERE Username=?";
+        String sql = "UPDATE USEr SET Password=?, FullName=?, Email=?, Role=? WHERE Username=?";
         JdbcHelper.executeUpdate(sql,
                 model.getPassword(),
                 model.getFullName(),
@@ -38,12 +38,12 @@ public class UserDAO {
     }
     
     public void delete(String Username) {
-        String sql = "DELETE FROM NguoiDung WHERE Username=?";
+        String sql = "DELETE FROM USER WHERE Username=?";
         JdbcHelper.executeUpdate(sql, Username);
     }
     
     public User findById(String Username) {
-        String sql = "SELECT * FROM NguoiDung WHERE Username = ?";
+        String sql = "SELECT * FROM USER WHERE Username = ?";
         List<User> list = select(sql, Username);
         return list.size() > 0 ? list.get(0) : null;
     }
@@ -72,6 +72,7 @@ public class UserDAO {
         model.setUsername(rs.getString("Username"));
         model.setPassword(rs.getString("Password"));
         model.setFullName(rs.getString("FullName"));
+        model.setEmail(rs.getString("Email"));
         model.setRole(rs.getBoolean("Role"));
         return model;
     }
