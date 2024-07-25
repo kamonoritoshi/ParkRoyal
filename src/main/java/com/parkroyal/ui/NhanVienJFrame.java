@@ -9,12 +9,16 @@ import com.parkroyal.dao.NhanVienDAO;
 import com.parkroyal.dao.PhongBanDAO;
 import com.parkroyal.helper.DateHelper;
 import com.parkroyal.helper.DialogHelper;
+import com.parkroyal.helper.ImageHelper;
 import com.parkroyal.helper.ShareHelper;
 import com.parkroyal.model.ChucVu;
 import com.parkroyal.model.NhanVien;
 import com.parkroyal.model.PhongBan;
+import java.io.File;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,8 +34,6 @@ public class NhanVienJFrame extends javax.swing.JFrame {
         initComponents();
         this.init();
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -95,6 +97,11 @@ public class NhanVienJFrame extends javax.swing.JFrame {
         lblTitle.setText("Quản Lý Hồ Sơ Nhân Viên");
 
         lblHinh.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblHinh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblHinhMouseClicked(evt);
+            }
+        });
 
         lblMaNV.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMaNV.setText("Mã nhân viên:");
@@ -359,13 +366,13 @@ public class NhanVienJFrame extends javax.swing.JFrame {
 
         tblNhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã NV", "Họ tên", "Giới tính", "Ngày sinh", "Địa chỉ", "Quê quán", "Dân tộc", "Số ĐT", "Phòng ban", "Chức vụ"
+                "Mã NV", "Họ tên", "Giới tính", "Ngày sinh", "Địa chỉ", "Quê quán", "Dân tộc", "Số ĐT", "Phòng ban", "Chức vụ", "Hình"
             }
         ));
         tblNhanVien.setEnabled(false);
@@ -476,16 +483,20 @@ public class NhanVienJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblNhanVienMouseClicked
 
+    private void lblHinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHinhMouseClicked
+        this.chonAnh();
+    }//GEN-LAST:event_lblHinhMouseClicked
+
     int row = -1;
     NhanVienDAO dao = new NhanVienDAO();
-    
+
     void init() {
         setLocationRelativeTo(null);
         this.fillTable();
         this.row = -1;
         this.updateStatus();
     }
-    
+
     void fillTable() {
         DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
         model.setRowCount(0);
@@ -501,7 +512,9 @@ public class NhanVienJFrame extends javax.swing.JFrame {
                     nv.getQueQuan(),
                     nv.getDanToc(),
                     nv.getSoDT(),
-                    nv.getMaPB()
+                    nv.getMaPB(),
+                    nv.getMaCV(),
+                    nv.getHinh()
                 };
                 model.addRow(row);
             }
@@ -509,7 +522,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
             DialogHelper.alert(this, "Lỗi truy vấn dữ liệu!");
         }
     }
-    
+
     void insert() {
         NhanVien model = getForm();
         try {
@@ -521,7 +534,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
             DialogHelper.alert(this, "Thêm mới thất bại!");
         }
     }
-    
+
     void update() {
         NhanVien model = getForm();
         try {
@@ -532,7 +545,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
             DialogHelper.alert(this, "Cập nhật thất bại!");
         }
     }
-    
+
     void delete() {
         if (!ShareHelper.isManager()) {
             DialogHelper.alert(this, "Bạn không có quyền xóa nhân viên!");
@@ -550,13 +563,13 @@ public class NhanVienJFrame extends javax.swing.JFrame {
             }
         }
     }
-    
+
     void clearForm() {
         this.setForm(new NhanVien());
         this.row = -1;
         this.updateStatus();
     }
-    
+
     void edit() {
         Integer manv = (Integer) tblNhanVien.getValueAt(this.row, 0);
         NhanVien nv = dao.findById(manv);
@@ -564,7 +577,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
         this.updateStatus();
         tabs.setSelectedIndex(0);
     }
-    
+
     void setForm(NhanVien nv) {
         txtMaNV.setText(String.valueOf(nv.getMaNV()));
         txtHoTen.setText(nv.getHoTen());
@@ -577,7 +590,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
         txtSoDT.setText(nv.getSoDT());
         cboPhongBan.setSelectedItem(pbdao.findById(nv.getMaPB()));
     }
-    
+
     NhanVien getForm() {
         NhanVien nv = new NhanVien();
         nv.setMaNV(Integer.valueOf(txtMaNV.getText()));
@@ -594,28 +607,31 @@ public class NhanVienJFrame extends javax.swing.JFrame {
         nv.setSoDT(txtSoDT.getText());
         return nv;
     }
-    
+
     void first() {
         this.row = 0;
         this.edit();
     }
+
     void prev() {
         if (this.row > 0) {
             this.row--;
             this.edit();
         }
     }
+
     void next() {
         if (this.row < tblNhanVien.getRowCount() - 1) {
             this.row++;
             this.edit();
         }
     }
+
     void last() {
         this.row = tblNhanVien.getRowCount() - 1;
         this.edit();
     }
-    
+
     void updateStatus() {
         boolean edit = (this.row >= 0);
         boolean first = (this.row == 0);
@@ -631,10 +647,10 @@ public class NhanVienJFrame extends javax.swing.JFrame {
         btnNext.setEnabled(edit && !last);
         btnLast.setEnabled(edit && !last);
     }
-    
+
     PhongBanDAO pbdao = new PhongBanDAO();
     ChucVuDAO cvdao = new ChucVuDAO();
-    
+
     void fillComboBoxPB() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cboPhongBan.getModel();
         model.removeAllElements();
@@ -647,7 +663,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
             DialogHelper.alert(this, "Lỗi truy vấn phòng ban!");
         }
     }
-    
+
     void fillComboBoxCV() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cboChucVu.getModel();
         model.removeAllElements();
@@ -660,6 +676,19 @@ public class NhanVienJFrame extends javax.swing.JFrame {
             DialogHelper.alert(this, "Lỗi truy vấn chức vụ!");
         }
     }
+
+    JFileChooser fileChooser = new JFileChooser();
+
+    void chonAnh() {
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            ImageHelper.save(file);
+            ImageIcon icon = ImageHelper.read(file.getName());
+            lblHinh.setIcon(icon);
+            lblHinh.setToolTipText(file.getName());
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
