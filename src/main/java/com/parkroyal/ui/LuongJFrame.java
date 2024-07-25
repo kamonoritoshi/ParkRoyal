@@ -379,8 +379,6 @@ public class LuongJFrame extends javax.swing.JFrame {
         txtMaNV.setText("");
         txtHoTen.setText("");
         txtLuongCoBan.setText("");
-        txtBacLuong.setText("");
-        txtHeSoLuong.setText("");
         txtHeSoPhuCap.setText("");
         this.row = -1;
         this.updateStatus();
@@ -401,8 +399,6 @@ public class LuongJFrame extends javax.swing.JFrame {
         txtMaNV.setText(String.valueOf(nvdao.findById(luong.getMaNV()).getMaNV()));
         txtHoTen.setText(nvdao.findById(luong.getMaNV()).getHoTen());
         txtLuongCoBan.setText(String.valueOf(luong.getLuongCoBan()));
-        txtBacLuong.setText(String.valueOf(luong.getBacLuong()));
-        txtHeSoLuong.setText(String.valueOf(luong.getHeSoLuong()));
         txtHeSoPhuCap.setText(String.valueOf(luong.getHeSoPhuCap()));
     }
     
@@ -410,8 +406,6 @@ public class LuongJFrame extends javax.swing.JFrame {
         Luong luong = new Luong();
         luong.setMaLuong(Integer.parseInt(txtMaLuong.getText()));
         luong.setLuongCoBan(Double.parseDouble(txtLuongCoBan.getText()));
-        luong.setBacLuong(Double.parseDouble(txtBacLuong.getText()));
-        luong.setHeSoLuong(Double.parseDouble(txtHeSoLuong.getText()));
         luong.setHeSoPhuCap(Double.parseDouble(txtHeSoPhuCap.getText()));
         luong.setMaNV(Integer.parseInt(txtMaNV.getText()));
         return luong;
