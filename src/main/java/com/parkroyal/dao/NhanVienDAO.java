@@ -19,7 +19,7 @@ public class NhanVienDAO extends MainDAO<NhanVien, Integer>{
 
     @Override
     public void insert(NhanVien entity) {
-        String sql = "INSERT INTO NHANVIEN (ID, HoTen, GioiTinh, NgaySinh, DiaChi, QueQuan, DanToc, SoDT, PhongBanID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO NHANVIEN (ID, HoTen, GioiTinh, NgaySinh, DiaChi, QueQuan, DanToc, SoDT, PhongBanID, ChucVuID, Hinh) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         JdbcHelper.executeUpdate(sql, 
                 entity.getMaNV(),
                 entity.getHoTen(),
@@ -29,12 +29,14 @@ public class NhanVienDAO extends MainDAO<NhanVien, Integer>{
                 entity.getQueQuan(),
                 entity.getDanToc(),
                 entity.getSoDT(),
-                entity.getMaPB());
+                entity.getMaPB(),
+                entity.getMaCV(),
+                entity.getHinh());
     }
 
     @Override
     public void update(NhanVien entity) {
-        String sql = "UPDATE NHANVIEN SET HoTen=?, GioiTinh=?, NgaySinh=?, Diachi=?, QueQuan=?, DanToc=?, SoDT=?, PhongBanID=? WHERE ID=?";
+        String sql = "UPDATE NHANVIEN SET HoTen=?, GioiTinh=?, NgaySinh=?, Diachi=?, QueQuan=?, DanToc=?, SoDT=?, PhongBanID=?, ChucVuID=?, Hinh=? WHERE ID=?";
         JdbcHelper.executeUpdate(sql,
                 entity.getHoTen(),
                 entity.isGioiTinh(),
@@ -44,6 +46,8 @@ public class NhanVienDAO extends MainDAO<NhanVien, Integer>{
                 entity.getDanToc(),
                 entity.getSoDT(),
                 entity.getMaPB(),
+                entity.getMaCV(),
+                entity.getHinh(),
                 entity.getMaNV());
     }
 
@@ -90,6 +94,8 @@ public class NhanVienDAO extends MainDAO<NhanVien, Integer>{
                     entity.setDanToc(rs.getString("DanToc"));
                     entity.setSoDT(rs.getString("SoDT"));
                     entity.setMaPB(rs.getInt("PhongBanID"));
+                    entity.setMaCV(rs.getInt("ChucVuID"));
+                    entity.setHinh(rs.getString("Hinh"));
                     list.add(entity);
                 }
             } finally {

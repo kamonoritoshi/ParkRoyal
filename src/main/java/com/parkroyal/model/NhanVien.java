@@ -20,6 +20,24 @@ public class NhanVien {
     private String danToc;
     private String soDT;
     private int maPB;
+    private int maCV;
+    private String hinh;
+
+    public int getMaCV() {
+        return maCV;
+    }
+
+    public void setMaCV(int maCV) {
+        this.maCV = maCV;
+    }
+
+    public String getHinh() {
+        return hinh;
+    }
+
+    public void setHinh(String hinh) {
+        this.hinh = hinh;
+    }
 
     public String getDiaChi() {
         return diaChi;
