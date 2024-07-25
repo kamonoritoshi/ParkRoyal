@@ -73,7 +73,7 @@ public class DangNhapJFrame extends javax.swing.JFrame {
         });
 
         chkRemember.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        chkRemember.setText("Nhớ tài khoản'");
+        chkRemember.setText("Nhớ tài khoản");
         chkRemember.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chkRememberActionPerformed(evt);
@@ -246,6 +246,8 @@ public class DangNhapJFrame extends javax.swing.JFrame {
             this.dispose();
         }
     }
+    
+    // con bò ngồi cạnh con nai
     /**
      * @param args the command line arguments
      */
