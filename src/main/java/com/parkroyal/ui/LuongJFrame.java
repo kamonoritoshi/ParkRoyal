@@ -4,10 +4,13 @@
  */
 package com.parkroyal.ui;
 
+import com.parkroyal.dao.LuongCTDAO;
 import com.parkroyal.dao.LuongDAO;
 import com.parkroyal.dao.NhanVienDAO;
+import com.parkroyal.helper.DateHelper;
 import com.parkroyal.helper.DialogHelper;
 import com.parkroyal.model.Luong;
+import com.parkroyal.model.LuongCT;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -59,6 +62,8 @@ public class LuongJFrame extends javax.swing.JFrame {
         lblTongLuong = new javax.swing.JLabel();
         txtTongLuong = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        lblNgayHieuLuc = new javax.swing.JLabel();
+        txtNgayHieuLuc = new javax.swing.JTextField();
         pnlList = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblLuong = new javax.swing.JTable();
@@ -139,6 +144,9 @@ public class LuongJFrame extends javax.swing.JFrame {
 
         jLabel6.setText("VND");
 
+        lblNgayHieuLuc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNgayHieuLuc.setText("Ngày hiệu lực:");
+
         javax.swing.GroupLayout pnlEditLayout = new javax.swing.GroupLayout(pnlEdit);
         pnlEdit.setLayout(pnlEditLayout);
         pnlEditLayout.setHorizontalGroup(
@@ -190,7 +198,11 @@ public class LuongJFrame extends javax.swing.JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlEditLayout.createSequentialGroup()
                                         .addComponent(lblLuongCoBan, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtLuongCoBan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(txtLuongCoBan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(pnlEditLayout.createSequentialGroup()
+                                        .addComponent(lblNgayHieuLuc, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtNgayHieuLuc)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -224,10 +236,14 @@ public class LuongJFrame extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNgayHieuLuc)
+                    .addComponent(txtNgayHieuLuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTongLuong)
                     .addComponent(txtTongLuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addGap(78, 78, 78)
+                .addGap(38, 38, 38)
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLast)
                     .addComponent(btnNext)
@@ -242,13 +258,13 @@ public class LuongJFrame extends javax.swing.JFrame {
 
         tblLuong.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Mã lương", "Mã NV", "Họ và tên", "Lương cơ bản", "Bậc lương", "Hệ số lương", "Hệ số phụ cấp"
+                "Mã lương", "Mã NV", "Hệ số phụ cấp", "Ngày hiệu lực"
             }
         ));
         tblLuong.setEnabled(false);
@@ -332,7 +348,7 @@ public class LuongJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_tblLuongMouseClicked
 
     int row = -1;
-    LuongDAO dao = new LuongDAO();
+    LuongCTDAO dao = new LuongCTDAO();
     
     void init() {
         setLocationRelativeTo(null);
@@ -345,15 +361,13 @@ public class LuongJFrame extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tblLuong.getModel();
         model.setRowCount(0);
         try {
-            List<Luong> list = dao.select();
-            for (Luong luong : list) {
+            List<LuongCT> list = dao.select();
+            for (LuongCT luongct : list) {
                 Object[] row = {
-                    luong.getMaLuong(),
-                    luong.getLuongCoBan(),
-                    luong.getBacLuong(),
-                    luong.getHeSoLuong(),
-                    luong.getHeSoPhuCap(),
-                    luong.getMaNV()
+                    luongct.getMaLuong(),
+                    luongct.getMaNV(),
+                    luongct.getHeSoPhuCap(),
+                    DateHelper.toString(luongct.getNgayHieuLuc(), "yyyy/MM/dd")
                 };
                 model.addRow(row);
             }
@@ -363,7 +377,7 @@ public class LuongJFrame extends javax.swing.JFrame {
     }
     
     void insert() {
-        Luong model = getForm();
+        LuongCT model = getForm();
         try {
             dao.insert(model);
             this.fillTable();
@@ -380,35 +394,44 @@ public class LuongJFrame extends javax.swing.JFrame {
         txtHoTen.setText("");
         txtLuongCoBan.setText("");
         txtHeSoPhuCap.setText("");
+        txtTongLuong.setText("");
         this.row = -1;
         this.updateStatus();
     }
     
     void edit() {
-        Integer manv = (Integer) tblLuong.getValueAt(this.row, 0);
-        Luong luong = dao.findById(manv);
-        this.setForm(luong);
+        Integer maLuong = (Integer) tblLuong.getValueAt(this.row, 0);
+        Integer maNV = (Integer) tblLuong.getValueAt(this.row, 1);
+        LuongCT luongct = dao.findById(maNV, maLuong);
+        this.setForm(luongct);
         this.updateStatus();
         tabs.setSelectedIndex(0);
     }
     
     NhanVienDAO nvdao = new NhanVienDAO();
+    LuongDAO luongdao = new LuongDAO();
     
-    void setForm(Luong luong) {
-        txtMaLuong.setText(String.valueOf(luong.getMaLuong()));
-        txtMaNV.setText(String.valueOf(nvdao.findById(luong.getMaNV()).getMaNV()));
-        txtHoTen.setText(nvdao.findById(luong.getMaNV()).getHoTen());
-        txtLuongCoBan.setText(String.valueOf(luong.getLuongCoBan()));
-        txtHeSoPhuCap.setText(String.valueOf(luong.getHeSoPhuCap()));
+    void setForm(LuongCT luongct) {
+        txtMaLuong.setText(String.valueOf(luongct.getMaLuong()));
+        txtMaNV.setText(String.valueOf(luongct.getMaNV()));
+        txtHoTen.setText(nvdao.findById(luongct.getMaNV()).getHoTen());
+        txtLuongCoBan.setText(String.valueOf(luongdao.findById(luongct.getMaLuong()).getLuongCoBan()));
+        txtHeSoPhuCap.setText(String.valueOf(luongct.getHeSoPhuCap()));
+        txtNgayHieuLuc.setText(DateHelper.toString(luongct.getNgayHieuLuc(), "dd/MM/yyyy"));
+        if (luongct.getHeSoPhuCap() > 1.0) {
+            txtTongLuong.setText(String.valueOf((luongdao.findById(luongct.getMaLuong()).getLuongCoBan() + (luongdao.findById(luongct.getMaLuong()).getLuongCoBan() * (luongct.getHeSoPhuCap() - 1.0)))));
+        } else {
+            txtTongLuong.setText(String.valueOf(luongdao.findById(luongct.getMaLuong()).getLuongCoBan()));
+        }
     }
     
-    Luong getForm() {
-        Luong luong = new Luong();
-        luong.setMaLuong(Integer.parseInt(txtMaLuong.getText()));
-        luong.setLuongCoBan(Double.parseDouble(txtLuongCoBan.getText()));
-        luong.setHeSoPhuCap(Double.parseDouble(txtHeSoPhuCap.getText()));
-        luong.setMaNV(Integer.parseInt(txtMaNV.getText()));
-        return luong;
+    LuongCT getForm() {
+        LuongCT luongct = new LuongCT();
+        luongct.setMaLuong(Integer.parseInt(txtMaLuong.getText()));
+        luongct.setMaNV(Integer.parseInt(txtMaNV.getText()));
+        luongct.setHeSoPhuCap(Double.parseDouble(txtHeSoPhuCap.getText()));
+        luongct.setNgayHieuLuc(DateHelper.toDate(txtNgayHieuLuc.getText(), "yyyy/MM/dd"));
+        return luongct;
     }
     
     void first() {
@@ -500,6 +523,7 @@ public class LuongJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblLuongCoBan;
     private javax.swing.JLabel lblMaLuong;
     private javax.swing.JLabel lblMaNV;
+    private javax.swing.JLabel lblNgayHieuLuc;
     private javax.swing.JLabel lblTongLuong;
     private javax.swing.JPanel pnlEdit;
     private javax.swing.JPanel pnlList;
@@ -510,6 +534,7 @@ public class LuongJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtLuongCoBan;
     private javax.swing.JTextField txtMaLuong;
     private javax.swing.JTextField txtMaNV;
+    private javax.swing.JTextField txtNgayHieuLuc;
     private javax.swing.JTextField txtTongLuong;
     // End of variables declaration//GEN-END:variables
 }

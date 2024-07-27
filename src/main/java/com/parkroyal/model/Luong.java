@@ -11,10 +11,6 @@ package com.parkroyal.model;
 public class Luong {
     private int maLuong;
     private double luongCoBan;
-    private double bacLuong;
-    private double heSoLuong;
-    private double heSoPhuCap;
-    private int maNV;
 
     public int getMaLuong() {
         return maLuong;
@@ -30,38 +26,6 @@ public class Luong {
 
     public void setLuongCoBan(double luongCoBan) {
         this.luongCoBan = luongCoBan;
-    }
-
-    public double getBacLuong() {
-        return bacLuong;
-    }
-
-    public void setBacLuong(double bacLuong) {
-        this.bacLuong = bacLuong;
-    }
-
-    public double getHeSoLuong() {
-        return heSoLuong;
-    }
-
-    public void setHeSoLuong(double heSoLuong) {
-        this.heSoLuong = heSoLuong;
-    }
-
-    public double getHeSoPhuCap() {
-        return heSoPhuCap;
-    }
-
-    public void setHeSoPhuCap(double heSoPhuCap) {
-        this.heSoPhuCap = heSoPhuCap;
-    }
-
-    public int getMaNV() {
-        return maNV;
-    }
-
-    public void setMaNV(int maNV) {
-        this.maNV = maNV;
     }
     
 }

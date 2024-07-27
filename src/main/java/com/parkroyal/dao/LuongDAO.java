@@ -19,25 +19,17 @@ public class LuongDAO extends MainDAO<Luong, Integer>{
 
     @Override
     public void insert(Luong entity) {
-        String sql = "INSERT INTO LUONG (ID, LuongCoBan, BacLuong, HeSoLuong, HeSoPhuCap, NhanVienID) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO LUONG (ID, LuongCoBan) VALUES (?, ?)";
         JdbcHelper.executeUpdate(sql,
                 entity.getMaLuong(),
-                entity.getLuongCoBan(),
-                entity.getBacLuong(),
-                entity.getHeSoLuong(),
-                entity.getHeSoPhuCap(),
-                entity.getMaNV());
+                entity.getLuongCoBan());
     }
 
     @Override
     public void update(Luong entity) {
-        String sql = "UPDATE LUONG SET LuongCoBan=?, BacLuong=?, HeSoLuong=?, HeSoPhuCap=?, NhanVienID=? WHERE ID=?";
+        String sql = "UPDATE LUONG SET LuongCoBan WHERE ID=?";
         JdbcHelper.executeUpdate(sql,
                 entity.getLuongCoBan(),
-                entity.getBacLuong(),
-                entity.getHeSoLuong(),
-                entity.getHeSoPhuCap(),
-                entity.getMaNV(),
                 entity.getMaLuong());
     }
 
@@ -71,10 +63,6 @@ public class LuongDAO extends MainDAO<Luong, Integer>{
                     Luong entity = new Luong();
                     entity.setMaLuong(rs.getInt("ID"));
                     entity.setLuongCoBan(rs.getDouble("LuongCoBan"));
-                    entity.setBacLuong(rs.getDouble("BacLuong"));
-                    entity.setHeSoLuong(rs.getDouble("HeSoLuong"));
-                    entity.setHeSoPhuCap(rs.getDouble("HeSoPhuCap"));
-                    entity.setMaNV(rs.getInt("NhanVienID"));
                     list.add(entity);
                 }
             } finally {

@@ -8,6 +8,7 @@ import com.parkroyal.dao.UserDAO;
 import com.parkroyal.helper.DialogHelper;
 import com.parkroyal.helper.ShareHelper;
 import com.parkroyal.model.User;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -65,10 +66,20 @@ public class DangNhapJFrame extends javax.swing.JFrame {
                 txtUsernameActionPerformed(evt);
             }
         });
+        txtUsername.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUsernameKeyPressed(evt);
+            }
+        });
 
         pwdPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pwdPasswordActionPerformed(evt);
+            }
+        });
+        pwdPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                pwdPasswordKeyPressed(evt);
             }
         });
 
@@ -212,6 +223,14 @@ public class DangNhapJFrame extends javax.swing.JFrame {
     private void btnForgetPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForgetPasswordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnForgetPasswordActionPerformed
+
+    private void pwdPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pwdPasswordKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) this.login();
+    }//GEN-LAST:event_pwdPasswordKeyPressed
+
+    private void txtUsernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsernameKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) this.login();
+    }//GEN-LAST:event_txtUsernameKeyPressed
 
     
     void init() {
