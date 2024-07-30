@@ -23,6 +23,11 @@ public class NhanVien {
     private int maCV;
     private String hinh;
 
+    @Override
+    public String toString() {
+        return String.valueOf(maNV);
+    }
+
     public int getMaCV() {
         return maCV;
     }

@@ -12,6 +12,11 @@ public class Luong {
     private int maLuong;
     private double luongCoBan;
 
+    @Override
+    public String toString() {
+        return String.valueOf(maLuong);
+    }
+
     public int getMaLuong() {
         return maLuong;
     }

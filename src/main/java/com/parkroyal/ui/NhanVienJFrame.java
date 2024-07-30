@@ -96,6 +96,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitle.setText("Quản Lý Hồ Sơ Nhân Viên");
 
+        lblHinh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblHinh.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         lblHinh.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -226,7 +227,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlEditLayout.createSequentialGroup()
-                        .addComponent(lblHinh, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblHinh, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlEditLayout.createSequentialGroup()
@@ -250,7 +251,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
                                             .addComponent(txtMaNV)
                                             .addComponent(txtHoTen)))
                                     .addGroup(pnlEditLayout.createSequentialGroup()
-                                        .addComponent(lblNgaySinh, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+                                        .addComponent(lblNgaySinh, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addContainerGap())))
@@ -306,8 +307,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
             pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlEditLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(lblHinh, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlEditLayout.createSequentialGroup()
                         .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblMaNV)
@@ -320,11 +320,12 @@ public class NhanVienJFrame extends javax.swing.JFrame {
                         .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblGioiTinh)
                             .addComponent(rdoNam)
-                            .addComponent(rdoNu))
-                        .addGap(18, 18, 18)
-                        .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblNgaySinh)
-                            .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(rdoNu)))
+                    .addComponent(lblHinh, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNgaySinh)
+                    .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblDiaChi)
@@ -579,6 +580,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
     }
 
     void setForm(NhanVien nv) {
+        lblHinh.setIcon(ImageHelper.read(nv.getHinh()));
         txtMaNV.setText(String.valueOf(nv.getMaNV()));
         txtHoTen.setText(nv.getHoTen());
         rdoNam.setSelected(nv.isGioiTinh());
@@ -588,7 +590,8 @@ public class NhanVienJFrame extends javax.swing.JFrame {
         txtQueQuan.setText(nv.getQueQuan());
         txtDanToc.setText(nv.getDanToc());
         txtSoDT.setText(nv.getSoDT());
-        cboPhongBan.setSelectedItem(pbdao.findById(nv.getMaPB()));
+        cboPhongBan.setSelectedIndex(nv.getMaPB() - 1);
+        cboChucVu.setSelectedIndex(nv.getMaCV() - 1);
     }
 
     NhanVien getForm() {
@@ -605,6 +608,9 @@ public class NhanVienJFrame extends javax.swing.JFrame {
         nv.setQueQuan(txtQueQuan.getText());
         nv.setDanToc(txtDanToc.getText());
         nv.setSoDT(txtSoDT.getText());
+        nv.setMaPB(cboPhongBan.getSelectedIndex() + 1);
+        nv.setMaCV(cboChucVu.getSelectedIndex() + 1);
+        nv.setHinh(lblHinh.getToolTipText());
         return nv;
     }
 
@@ -683,9 +689,9 @@ public class NhanVienJFrame extends javax.swing.JFrame {
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             ImageHelper.save(file);
-            ImageIcon icon = ImageHelper.read(file.getName());
+            ImageIcon icon = ImageHelper.read(file.getAbsolutePath());
             lblHinh.setIcon(icon);
-            lblHinh.setToolTipText(file.getName());
+            lblHinh.setToolTipText(file.getAbsolutePath());
         }
     }
 

@@ -22,20 +22,10 @@ import javax.swing.ImageIcon;
  */
 public class ImageHelper {
 
-    public static Image getAppIcon(){
-        URL url = ImageHelper.class.getResource("/com/edusys/icon_images/fpt.png");
-        return new ImageIcon(url).getImage();
-    }
-
     public static void save(File file) {
-        File dir = new File("logos");
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-        File newFile = new File(dir, file.getName());
         try {
             Path source = Paths.get(file.getAbsolutePath());
-            Path destination = Paths.get(newFile.getAbsolutePath());
+            Path destination = Paths.get("D:/ParkRoyal/src/main/resources/" + file.getName());
             Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -48,8 +38,7 @@ public class ImageHelper {
      * @return ảnh đọc được
      */
     public static ImageIcon read(String fileName) {
-        File path = new File("logos", fileName);
-        return new ImageIcon(path.getAbsolutePath());
+        return new ImageIcon(fileName);
     }
     /**
      * * Đối tượng này chứa thông tin người sử dụng sau khi đăng nhập

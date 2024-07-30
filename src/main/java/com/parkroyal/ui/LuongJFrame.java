@@ -11,7 +11,9 @@ import com.parkroyal.helper.DateHelper;
 import com.parkroyal.helper.DialogHelper;
 import com.parkroyal.model.Luong;
 import com.parkroyal.model.LuongCT;
+import com.parkroyal.model.NhanVien;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -45,7 +47,6 @@ public class LuongJFrame extends javax.swing.JFrame {
         lblHoTen = new javax.swing.JLabel();
         lblLuongCoBan = new javax.swing.JLabel();
         lblHeSoPhuCap = new javax.swing.JLabel();
-        txtMaNV = new javax.swing.JTextField();
         txtHoTen = new javax.swing.JTextField();
         txtLuongCoBan = new javax.swing.JTextField();
         txtHeSoPhuCap = new javax.swing.JTextField();
@@ -56,7 +57,6 @@ public class LuongJFrame extends javax.swing.JFrame {
         btnNext = new javax.swing.JButton();
         btnLast = new javax.swing.JButton();
         lblMaLuong = new javax.swing.JLabel();
-        txtMaLuong = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         lblTongLuong = new javax.swing.JLabel();
@@ -64,6 +64,8 @@ public class LuongJFrame extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         lblNgayHieuLuc = new javax.swing.JLabel();
         txtNgayHieuLuc = new javax.swing.JTextField();
+        cboMaLuong = new javax.swing.JComboBox<>();
+        cboMaNV = new javax.swing.JComboBox<>();
         pnlList = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblLuong = new javax.swing.JTable();
@@ -71,6 +73,11 @@ public class LuongJFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Quản Lý Lương");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -147,6 +154,8 @@ public class LuongJFrame extends javax.swing.JFrame {
         lblNgayHieuLuc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblNgayHieuLuc.setText("Ngày hiệu lực:");
 
+        cboMaNV.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+
         javax.swing.GroupLayout pnlEditLayout = new javax.swing.GroupLayout(pnlEdit);
         pnlEdit.setLayout(pnlEditLayout);
         pnlEditLayout.setHorizontalGroup(
@@ -180,7 +189,7 @@ public class LuongJFrame extends javax.swing.JFrame {
                             .addGroup(pnlEditLayout.createSequentialGroup()
                                 .addComponent(lblMaLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtMaLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cboMaLuong, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(pnlEditLayout.createSequentialGroup()
                                 .addComponent(lblHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -188,7 +197,7 @@ public class LuongJFrame extends javax.swing.JFrame {
                             .addGroup(pnlEditLayout.createSequentialGroup()
                                 .addComponent(lblMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cboMaNV, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(pnlEditLayout.createSequentialGroup()
                                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlEditLayout.createSequentialGroup()
@@ -215,11 +224,11 @@ public class LuongJFrame extends javax.swing.JFrame {
                 .addContainerGap(43, Short.MAX_VALUE)
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMaLuong)
-                    .addComponent(txtMaLuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboMaLuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMaNV)
-                    .addComponent(txtMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblHoTen)
@@ -313,30 +322,6 @@ public class LuongJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
-        this.first();
-    }//GEN-LAST:event_btnFirstActionPerformed
-
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        this.insert();
-    }//GEN-LAST:event_btnThemActionPerformed
-
-    private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
-        this.clearForm();
-    }//GEN-LAST:event_btnMoiActionPerformed
-
-    private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-        this.prev();
-    }//GEN-LAST:event_btnPrevActionPerformed
-
-    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        this.next();
-    }//GEN-LAST:event_btnNextActionPerformed
-
-    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
-        this.last();
-    }//GEN-LAST:event_btnLastActionPerformed
-
     private void tblLuongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLuongMouseClicked
         if (evt.getClickCount() == 2) {
             this.row = tblLuong.rowAtPoint(evt.getPoint());
@@ -346,6 +331,35 @@ public class LuongJFrame extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_tblLuongMouseClicked
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        this.last();
+    }//GEN-LAST:event_btnLastActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        this.next();
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
+        this.prev();
+    }//GEN-LAST:event_btnPrevActionPerformed
+
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        this.first();
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
+        this.clearForm();
+    }//GEN-LAST:event_btnMoiActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        this.insert();
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        this.fillComboBoxLuong();
+        this.fillComboBoxNV();
+    }//GEN-LAST:event_formWindowOpened
 
     int row = -1;
     LuongCTDAO dao = new LuongCTDAO();
@@ -389,8 +403,8 @@ public class LuongJFrame extends javax.swing.JFrame {
     }
     
     void clearForm() {
-        txtMaLuong.setText("");
-        txtMaNV.setText("");
+        cboMaLuong.setSelectedIndex(0);
+        cboMaNV.setSelectedIndex(0);
         txtHoTen.setText("");
         txtLuongCoBan.setText("");
         txtHeSoPhuCap.setText("");
@@ -408,12 +422,9 @@ public class LuongJFrame extends javax.swing.JFrame {
         tabs.setSelectedIndex(0);
     }
     
-    NhanVienDAO nvdao = new NhanVienDAO();
-    LuongDAO luongdao = new LuongDAO();
-    
     void setForm(LuongCT luongct) {
-        txtMaLuong.setText(String.valueOf(luongct.getMaLuong()));
-        txtMaNV.setText(String.valueOf(luongct.getMaNV()));
+        cboMaLuong.setSelectedIndex(luongct.getMaLuong() - 1);
+        cboMaNV.setSelectedIndex(luongct.getMaNV() - 1);
         txtHoTen.setText(nvdao.findById(luongct.getMaNV()).getHoTen());
         txtLuongCoBan.setText(String.valueOf(luongdao.findById(luongct.getMaLuong()).getLuongCoBan()));
         txtHeSoPhuCap.setText(String.valueOf(luongct.getHeSoPhuCap()));
@@ -427,8 +438,8 @@ public class LuongJFrame extends javax.swing.JFrame {
     
     LuongCT getForm() {
         LuongCT luongct = new LuongCT();
-        luongct.setMaLuong(Integer.parseInt(txtMaLuong.getText()));
-        luongct.setMaNV(Integer.parseInt(txtMaNV.getText()));
+        luongct.setMaLuong(cboMaLuong.getSelectedIndex() + 1);
+        luongct.setMaNV(cboMaNV.getSelectedIndex() + 1);
         luongct.setHeSoPhuCap(Double.parseDouble(txtHeSoPhuCap.getText()));
         luongct.setNgayHieuLuc(DateHelper.toDate(txtNgayHieuLuc.getText(), "yyyy/MM/dd"));
         return luongct;
@@ -460,7 +471,6 @@ public class LuongJFrame extends javax.swing.JFrame {
         boolean first = (this.row == 0);
         boolean last = (this.row == tblLuong.getRowCount() - 1);
         // Trạng thái form
-        txtMaLuong.setEditable(!edit);
         btnThem.setEnabled(!edit);
         btnMoi.setEnabled(edit);
         // Trạng thái điều hướng
@@ -470,6 +480,34 @@ public class LuongJFrame extends javax.swing.JFrame {
         btnLast.setEnabled(edit && !last);
     }
     
+    NhanVienDAO nvdao = new NhanVienDAO();
+    LuongDAO luongdao = new LuongDAO();
+
+    void fillComboBoxNV() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cboMaNV.getModel();
+        model.removeAllElements();
+        try {
+            List<NhanVien> list = nvdao.select();
+            for (NhanVien nv : list) {
+                model.addElement(nv);
+            }
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn nhân viên!");
+        }
+    }
+
+    void fillComboBoxLuong() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cboMaLuong.getModel();
+        model.removeAllElements();
+        try {
+            List<Luong> list = luongdao.select();
+            for (Luong luong : list) {
+                model.addElement(luong);
+            }
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn chức vụ!");
+        }
+    }
     
     /**
      * @param args the command line arguments
@@ -513,6 +551,8 @@ public class LuongJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnPrev;
     private javax.swing.JButton btnThem;
+    private javax.swing.JComboBox<String> cboMaLuong;
+    private javax.swing.JComboBox<String> cboMaNV;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -532,8 +572,6 @@ public class LuongJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtHeSoPhuCap;
     private javax.swing.JTextField txtHoTen;
     private javax.swing.JTextField txtLuongCoBan;
-    private javax.swing.JTextField txtMaLuong;
-    private javax.swing.JTextField txtMaNV;
     private javax.swing.JTextField txtNgayHieuLuc;
     private javax.swing.JTextField txtTongLuong;
     // End of variables declaration//GEN-END:variables
