@@ -38,7 +38,7 @@ public class LuongJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        lblTitle = new javax.swing.JLabel();
         tabs = new javax.swing.JTabbedPane();
         pnlEdit = new javax.swing.JPanel();
         lblMaNV = new javax.swing.JLabel();
@@ -72,9 +72,9 @@ public class LuongJFrame extends javax.swing.JFrame {
         setTitle("Quản Lý Lương");
         setResizable(false);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Quản Lý Lương");
+        lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitle.setText("Quản Lý Lương");
 
         lblMaNV.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMaNV.setText("Mã nhân viên:");
@@ -298,13 +298,13 @@ public class LuongJFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(tabs)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
+                .addComponent(lblTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tabs)
                 .addContainerGap())
@@ -513,7 +513,6 @@ public class LuongJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnPrev;
     private javax.swing.JButton btnThem;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -524,6 +523,7 @@ public class LuongJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblMaLuong;
     private javax.swing.JLabel lblMaNV;
     private javax.swing.JLabel lblNgayHieuLuc;
+    private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblTongLuong;
     private javax.swing.JPanel pnlEdit;
     private javax.swing.JPanel pnlList;

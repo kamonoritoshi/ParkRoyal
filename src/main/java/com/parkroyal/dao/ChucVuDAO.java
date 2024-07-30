@@ -19,7 +19,7 @@ public class ChucVuDAO extends MainDAO<ChucVu, Integer> {
 
     @Override
     public void insert(ChucVu entity) {
-        String sql = "INSERT INTO CHUCVU (ID, TenPB, DiaChi, SDT) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO CHUCVU (ID, TenCV) VALUES (?, ?)";
         JdbcHelper.executeUpdate(sql,
                 entity.getMaCV(),
                 entity.getTenCV());
@@ -27,7 +27,7 @@ public class ChucVuDAO extends MainDAO<ChucVu, Integer> {
 
     @Override
     public void update(ChucVu entity) {
-        String sql = "UPDATE CHUCVU SET TenPB=? WHERE ID=?";
+        String sql = "UPDATE CHUCVU SET TenCV=? WHERE ID=?";
         JdbcHelper.executeUpdate(sql,
                 entity.getTenCV(),
                 entity.getMaCV());
