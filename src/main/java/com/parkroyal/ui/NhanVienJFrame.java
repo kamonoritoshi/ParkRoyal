@@ -603,7 +603,7 @@ public class NhanVienJFrame extends javax.swing.JFrame {
         } else {
             nv.setGioiTinh(false);
         }
-        nv.setNgaySinh(DateHelper.toDate(txtNgaySinh.getText(), "yyyy/MM/dd"));
+        nv.setNgaySinh(DateHelper.toDate(txtNgaySinh.getText(), "dd/MM/yyyy"));
         nv.setDiaChi(txaDiaChi.getText());
         nv.setQueQuan(txtQueQuan.getText());
         nv.setDanToc(txtDanToc.getText());
@@ -686,14 +686,19 @@ public class NhanVienJFrame extends javax.swing.JFrame {
     JFileChooser fileChooser = new JFileChooser();
 
     void chonAnh() {
-        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            ImageHelper.save(file);
-            ImageIcon icon = ImageHelper.read(file.getAbsolutePath());
-            lblHinh.setIcon(icon);
-            lblHinh.setToolTipText(file.getAbsolutePath());
-        }
+    if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+        File file = fileChooser.getSelectedFile();
+        String sourcePath = file.getAbsolutePath();
+        String destinationPath = file.getAbsolutePath();
+        
+        ImageHelper.save(sourcePath, destinationPath);
+        ImageIcon icon = ImageHelper.read(destinationPath);
+        
+        lblHinh.setIcon(icon);
+        lblHinh.setToolTipText(destinationPath);
     }
+}
+
 
     /**
      * @param args the command line arguments

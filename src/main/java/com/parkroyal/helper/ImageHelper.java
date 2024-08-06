@@ -6,10 +6,7 @@
 package com.parkroyal.helper;
 
 import com.parkroyal.model.NhanVien;
-import java.awt.Image;
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,40 +19,31 @@ import javax.swing.ImageIcon;
  */
 public class ImageHelper {
 
-    public static void save(File file) {
+    // Lưu hình ảnh từ đường dẫn bất kỳ
+    public static void save(String sourcePath, String destinationPath) {
         try {
-            Path source = Paths.get(file.getAbsolutePath());
-            Path destination = Paths.get("D:/ParkRoyal/src/main/resources/" + file.getName());
+            Path source = Paths.get(sourcePath);
+            Path destination = Paths.get(destinationPath);
             Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }
 
-    /**
-     * * Đọc hình ảnh logo chuyên đề * @param fileName là tên file logo *
-     * @param fileName
-     * @return ảnh đọc được
-     */
+    // Đọc hình ảnh từ đường dẫn bất kỳ
     public static ImageIcon read(String fileName) {
         return new ImageIcon(fileName);
     }
-    /**
-     * * Đối tượng này chứa thông tin người sử dụng sau khi đăng nhập
-     */
+
+    // Đối tượng này chứa thông tin người sử dụng sau khi đăng nhập
     public static NhanVien USER = null;
 
-    /**
-     * * Xóa thông tin của người sử dụng khi có yêu cầu đăng xuất
-     */
+    // Xóa thông tin của người sử dụng khi có yêu cầu đăng xuất
     public static void logoff() {
         ImageHelper.USER = null;
     }
 
-    /**
-     * * Kiểm tra xem đăng nhập hay chưa * @return đăng nhập hay chưa
-     * @return 
-     */
+    // Kiểm tra xem đăng nhập hay chưa
     public static boolean authenticated() {
         return ImageHelper.USER != null;
     }

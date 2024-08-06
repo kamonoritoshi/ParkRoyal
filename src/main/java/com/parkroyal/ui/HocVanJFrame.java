@@ -66,7 +66,7 @@ public class HocVanJFrame extends javax.swing.JFrame {
         tblHocVan = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Quản Lý Đào Tạo");
+        setTitle("Quản Lý Bằng Cấp");
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -250,13 +250,13 @@ public class HocVanJFrame extends javax.swing.JFrame {
 
         tblHocVan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Mã quản lý", "Tên nhân viên", "Loại chứng chỉ", "Mô tả", "Ngày cấp", "Hiệu lực"
+                "Mã quản lý", "Loại chứng chỉ", "Mô tả", "Ngày cấp", "Hiệu lực"
             }
         ));
         tblHocVan.setEnabled(false);
@@ -367,7 +367,7 @@ public class HocVanJFrame extends javax.swing.JFrame {
                     hv.getMaHV(),
                     hv.getLoaiCC(),
                     hv.getMoTa(),
-                    DateHelper.toString(hv.getNgayCap(), "yyyy/MM/dd"),
+                    DateHelper.toString(hv.getNgayCap(), "dd/MM/yyyy"),
                     hv.getHieuLuc(),
                     hv.getMaNV()
                 };
@@ -452,7 +452,7 @@ public class HocVanJFrame extends javax.swing.JFrame {
         hv.setMaHV(Integer.valueOf(txtMaHV.getText()));
         hv.setLoaiCC(txtLoaiCC.getText());
         hv.setMoTa(txaMoTa.getText());
-        hv.setNgayCap(DateHelper.toDate(txtNgayCap.getText(), "yyyy/MM/dd"));
+        hv.setNgayCap(DateHelper.toDate(txtNgayCap.getText(), "dd/MM/yyyy"));
         hv.setHieuLuc(txtHieuLuc.getText());
         hv.setMaNV(nvdao.findByHoTen(txtTenNV.getText()).getMaNV());
         return hv;

@@ -331,7 +331,7 @@ public class PhongVanJFrame extends javax.swing.JFrame {
                 Object[] row = {
                     pv.getMaCV(),
                     pv.getMaTD(),
-                    DateHelper.toString(pv.getNgayPV(), "yyyy/MM/dd"),
+                    DateHelper.toString(pv.getNgayPV(), "dd/MM/yyyy"),
                     pv.isTrangThai() ? "Đạt" : "Không đạt"
                 };
                 model.addRow(row);
@@ -398,7 +398,7 @@ public class PhongVanJFrame extends javax.swing.JFrame {
     
     PhongVan getForm() {
         PhongVan pv = new PhongVan();
-        pv.setNgayPV(DateHelper.toDate(txtNgayPV.getText(), "yyyy/MM/dd"));
+        pv.setNgayPV(DateHelper.toDate(txtNgayPV.getText(), "dd/MM/yyyy"));
         if (txtTrangThai.equals("Đạt")) {
             pv.setTrangThai(true);
         } else {

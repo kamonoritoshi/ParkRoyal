@@ -14,7 +14,7 @@ public class Luong {
 
     @Override
     public String toString() {
-        return String.valueOf(maLuong);
+        return String.valueOf(maLuong) + " - " + String.valueOf(luongCoBan);
     }
 
     public int getMaLuong() {

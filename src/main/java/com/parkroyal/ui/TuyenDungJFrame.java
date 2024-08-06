@@ -363,8 +363,8 @@ public class TuyenDungJFrame extends javax.swing.JFrame {
                     td.getMaTD(),
                     td.getHoTen(),
                     td.isGioiTinh() ? "Nam" : "Nữ",
-                    DateHelper.toString(td.getNgaySinh(), "yyyy/MM/dd"),
-                    DateHelper.toString(td.getNgayNopHS(), "yyyy/MM/dd")
+                    DateHelper.toString(td.getNgaySinh(), "dd/MM/yyyy"),
+                    DateHelper.toString(td.getNgayNopHS(), "dd/MM/yyyy")
                 };
                 model.addRow(row);
             }
@@ -446,8 +446,8 @@ public class TuyenDungJFrame extends javax.swing.JFrame {
         } else {
             td.setGioiTinh(false);
         }
-        td.setNgaySinh(DateHelper.toDate(txtNgaySinh.getText(), "yyyy/MM/dd"));
-        td.setNgayNopHS(DateHelper.toDate(txtNgayNopHS.getText(), "yyyy/MM/dd"));
+        td.setNgaySinh(DateHelper.toDate(txtNgaySinh.getText(), "dd/MM/yyyy"));
+        td.setNgayNopHS(DateHelper.toDate(txtNgayNopHS.getText(), "dd/MM/yyyy"));
         return td;
     }
     

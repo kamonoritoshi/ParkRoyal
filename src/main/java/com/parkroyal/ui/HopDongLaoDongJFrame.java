@@ -355,8 +355,8 @@ public class HopDongLaoDongJFrame extends javax.swing.JFrame {
                 Object[] row = {
                     hdld.getMaCV(),
                     hdld.getMaNV(),
-                    DateHelper.toString(hdld.getNgayKy(), "yyyy/MM/dd"),
-                    DateHelper.toString(hdld.getNgayBDLV(), "yyyy/MM/dd")
+                    DateHelper.toString(hdld.getNgayKy(), "dd/MM/yyyy"),
+                    DateHelper.toString(hdld.getNgayBDLV(), "dd/MM/yyyy")
                 };
                 model.addRow(row);
             }
@@ -425,8 +425,8 @@ public class HopDongLaoDongJFrame extends javax.swing.JFrame {
     
     HopDongLaoDong getForm() {
         HopDongLaoDong hdld = new HopDongLaoDong();
-        hdld.setNgayKy(DateHelper.toDate(txtNgayKy.getText(), "yyyy/MM/dd"));
-        hdld.setNgayBDLV(DateHelper.toDate(txtNgayBDLV.getText(), "yyyy/MM/dd"));
+        hdld.setNgayKy(DateHelper.toDate(txtNgayKy.getText(), "dd/MM/yyyy"));
+        hdld.setNgayBDLV(DateHelper.toDate(txtNgayBDLV.getText(), "dd/MM/yyyy"));
         hdld.setMaCV(Integer.parseInt(txtMaCV.getText()));
         hdld.setMaNV(Integer.parseInt(txtMaNV.getText()));
         return hdld;

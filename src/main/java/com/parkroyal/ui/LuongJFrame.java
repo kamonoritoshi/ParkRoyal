@@ -44,11 +44,7 @@ public class LuongJFrame extends javax.swing.JFrame {
         tabs = new javax.swing.JTabbedPane();
         pnlEdit = new javax.swing.JPanel();
         lblMaNV = new javax.swing.JLabel();
-        lblHoTen = new javax.swing.JLabel();
-        lblLuongCoBan = new javax.swing.JLabel();
         lblHeSoPhuCap = new javax.swing.JLabel();
-        txtHoTen = new javax.swing.JTextField();
-        txtLuongCoBan = new javax.swing.JTextField();
         txtHeSoPhuCap = new javax.swing.JTextField();
         btnThem = new javax.swing.JButton();
         btnMoi = new javax.swing.JButton();
@@ -57,7 +53,6 @@ public class LuongJFrame extends javax.swing.JFrame {
         btnNext = new javax.swing.JButton();
         btnLast = new javax.swing.JButton();
         lblMaLuong = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         lblTongLuong = new javax.swing.JLabel();
         txtTongLuong = new javax.swing.JTextField();
@@ -86,16 +81,8 @@ public class LuongJFrame extends javax.swing.JFrame {
         lblMaNV.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMaNV.setText("Mã nhân viên:");
 
-        lblHoTen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblHoTen.setText("Họ và tên:");
-
-        lblLuongCoBan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblLuongCoBan.setText("Lương cơ bản:");
-
         lblHeSoPhuCap.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblHeSoPhuCap.setText("Hệ số phụ cấp:");
-
-        txtHoTen.setEditable(false);
 
         btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
@@ -142,8 +129,6 @@ public class LuongJFrame extends javax.swing.JFrame {
         lblMaLuong.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMaLuong.setText("Mã lương:");
 
-        jLabel2.setText("VND");
-
         jLabel5.setText("x");
 
         lblTongLuong.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -165,7 +150,7 @@ public class LuongJFrame extends javax.swing.JFrame {
                 .addComponent(btnThem)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnMoi)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 227, Short.MAX_VALUE)
                 .addComponent(btnFirst)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnPrev)
@@ -174,54 +159,41 @@ public class LuongJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnLast)
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEditLayout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
-                .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlEditLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnlEditLayout.createSequentialGroup()
                         .addComponent(lblTongLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtTongLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEditLayout.createSequentialGroup()
-                        .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(pnlEditLayout.createSequentialGroup()
-                                .addComponent(lblMaLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnlEditLayout.createSequentialGroup()
+                        .addComponent(lblMaLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cboMaLuong, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnlEditLayout.createSequentialGroup()
+                        .addComponent(lblMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cboMaNV, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnlEditLayout.createSequentialGroup()
+                        .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlEditLayout.createSequentialGroup()
+                                .addComponent(lblHeSoPhuCap, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cboMaLuong, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(txtHeSoPhuCap, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(pnlEditLayout.createSequentialGroup()
-                                .addComponent(lblHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblNgayHieuLuc, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnlEditLayout.createSequentialGroup()
-                                .addComponent(lblMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cboMaNV, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(pnlEditLayout.createSequentialGroup()
-                                .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlEditLayout.createSequentialGroup()
-                                        .addComponent(lblHeSoPhuCap, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtHeSoPhuCap))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlEditLayout.createSequentialGroup()
-                                        .addComponent(lblLuongCoBan, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtLuongCoBan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(pnlEditLayout.createSequentialGroup()
-                                        .addComponent(lblNgayHieuLuc, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtNgayHieuLuc)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(18, 18, 18))))
+                                .addComponent(txtNgayHieuLuc, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlEditLayout.setVerticalGroup(
             pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlEditLayout.createSequentialGroup()
-                .addContainerGap(43, Short.MAX_VALUE)
+                .addGap(62, 62, 62)
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMaLuong)
                     .addComponent(cboMaLuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -229,15 +201,6 @@ public class LuongJFrame extends javax.swing.JFrame {
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMaNV)
                     .addComponent(cboMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblHoTen)
-                    .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblLuongCoBan)
-                    .addComponent(txtLuongCoBan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblHeSoPhuCap)
@@ -252,7 +215,7 @@ public class LuongJFrame extends javax.swing.JFrame {
                     .addComponent(lblTongLuong)
                     .addComponent(txtTongLuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addGap(38, 38, 38)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLast)
                     .addComponent(btnNext)
@@ -361,6 +324,9 @@ public class LuongJFrame extends javax.swing.JFrame {
         this.fillComboBoxNV();
     }//GEN-LAST:event_formWindowOpened
 
+    NhanVienDAO nvdao = new NhanVienDAO();
+    LuongDAO luongdao = new LuongDAO();
+    
     int row = -1;
     LuongCTDAO dao = new LuongCTDAO();
     
@@ -381,7 +347,7 @@ public class LuongJFrame extends javax.swing.JFrame {
                     luongct.getMaLuong(),
                     luongct.getMaNV(),
                     luongct.getHeSoPhuCap(),
-                    DateHelper.toString(luongct.getNgayHieuLuc(), "yyyy/MM/dd")
+                    DateHelper.toString(luongct.getNgayHieuLuc(), "dd/MM/yyyy")
                 };
                 model.addRow(row);
             }
@@ -405,8 +371,6 @@ public class LuongJFrame extends javax.swing.JFrame {
     void clearForm() {
         cboMaLuong.setSelectedIndex(0);
         cboMaNV.setSelectedIndex(0);
-        txtHoTen.setText("");
-        txtLuongCoBan.setText("");
         txtHeSoPhuCap.setText("");
         txtTongLuong.setText("");
         this.row = -1;
@@ -425,8 +389,6 @@ public class LuongJFrame extends javax.swing.JFrame {
     void setForm(LuongCT luongct) {
         cboMaLuong.setSelectedIndex(luongct.getMaLuong() - 1);
         cboMaNV.setSelectedIndex(luongct.getMaNV() - 1);
-        txtHoTen.setText(nvdao.findById(luongct.getMaNV()).getHoTen());
-        txtLuongCoBan.setText(String.valueOf(luongdao.findById(luongct.getMaLuong()).getLuongCoBan()));
         txtHeSoPhuCap.setText(String.valueOf(luongct.getHeSoPhuCap()));
         txtNgayHieuLuc.setText(DateHelper.toString(luongct.getNgayHieuLuc(), "dd/MM/yyyy"));
         if (luongct.getHeSoPhuCap() > 1.0) {
@@ -441,7 +403,7 @@ public class LuongJFrame extends javax.swing.JFrame {
         luongct.setMaLuong(cboMaLuong.getSelectedIndex() + 1);
         luongct.setMaNV(cboMaNV.getSelectedIndex() + 1);
         luongct.setHeSoPhuCap(Double.parseDouble(txtHeSoPhuCap.getText()));
-        luongct.setNgayHieuLuc(DateHelper.toDate(txtNgayHieuLuc.getText(), "yyyy/MM/dd"));
+        luongct.setNgayHieuLuc(DateHelper.toDate(txtNgayHieuLuc.getText(), "dd/MM/yyyy"));
         return luongct;
     }
     
@@ -480,8 +442,6 @@ public class LuongJFrame extends javax.swing.JFrame {
         btnLast.setEnabled(edit && !last);
     }
     
-    NhanVienDAO nvdao = new NhanVienDAO();
-    LuongDAO luongdao = new LuongDAO();
 
     void fillComboBoxNV() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cboMaNV.getModel();
@@ -553,13 +513,10 @@ public class LuongJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnThem;
     private javax.swing.JComboBox<String> cboMaLuong;
     private javax.swing.JComboBox<String> cboMaNV;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblHeSoPhuCap;
-    private javax.swing.JLabel lblHoTen;
-    private javax.swing.JLabel lblLuongCoBan;
     private javax.swing.JLabel lblMaLuong;
     private javax.swing.JLabel lblMaNV;
     private javax.swing.JLabel lblNgayHieuLuc;
@@ -570,8 +527,6 @@ public class LuongJFrame extends javax.swing.JFrame {
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JTable tblLuong;
     private javax.swing.JTextField txtHeSoPhuCap;
-    private javax.swing.JTextField txtHoTen;
-    private javax.swing.JTextField txtLuongCoBan;
     private javax.swing.JTextField txtNgayHieuLuc;
     private javax.swing.JTextField txtTongLuong;
     // End of variables declaration//GEN-END:variables

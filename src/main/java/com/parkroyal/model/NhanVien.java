@@ -25,7 +25,7 @@ public class NhanVien {
 
     @Override
     public String toString() {
-        return String.valueOf(maNV);
+        return String.valueOf(maNV) + " - " + String.valueOf(hoTen);
     }
 
     public int getMaCV() {
