@@ -6,9 +6,23 @@ package com.parkroyal.ui;
 
 import com.parkroyal.dao.UserDAO;
 import com.parkroyal.helper.DialogHelper;
+import com.parkroyal.helper.MailSender;
 import com.parkroyal.helper.ShareHelper;
 import com.parkroyal.model.User;
 import java.awt.event.KeyEvent;
+import java.io.UnsupportedEncodingException;
+import java.util.Properties;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.prefs.Preferences;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  *
@@ -221,7 +235,7 @@ public class DangNhapJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnForgetPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForgetPasswordActionPerformed
-        // TODO add your handling code here:
+        this.forget();
     }//GEN-LAST:event_btnForgetPasswordActionPerformed
 
     private void pwdPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pwdPasswordKeyPressed
@@ -235,6 +249,8 @@ public class DangNhapJFrame extends javax.swing.JFrame {
     
     void init() {
         setLocationRelativeTo(null);
+        loadSavedCredentials();
+        chkRemember.setSelected(true);
     }
     
     UserDAO dao = new UserDAO();
@@ -251,6 +267,11 @@ public class DangNhapJFrame extends javax.swing.JFrame {
             DialogHelper.alert(this, "Sai tên đăng nhập hoặc mật khẩu!");
         } else {
             ShareHelper.USER = user;
+            if (chkRemember.isSelected()) {
+                saveCredentials(username, password);
+            } else {
+                clearSavedCredentials();
+            }
             this.dispose();
         }
     }
@@ -265,6 +286,116 @@ public class DangNhapJFrame extends javax.swing.JFrame {
             this.dispose();
         }
     }
+    
+    private void saveCredentials(String username, String password) {
+        Preferences prefs = Preferences.userNodeForPackage(DangNhapJFrame.class);
+        prefs.put("username", username);
+        prefs.put("password", password);
+    }
+    
+    private void clearSavedCredentials() {
+        Preferences prefs = Preferences.userNodeForPackage(DangNhapJFrame.class);
+        prefs.remove("username");
+        prefs.remove("password");
+    }
+    
+    private void loadSavedCredentials() {
+        Preferences prefs = Preferences.userNodeForPackage(DangNhapJFrame.class);
+        String savedUsername = prefs.get("username", "");
+        String savedPassword = prefs.get("password", "");
+        
+        if (!savedUsername.isEmpty()) {
+            txtUsername.setText(savedUsername);
+        }
+        if (!savedPassword.isEmpty()) {
+            pwdPassword.setText(savedPassword);
+        }
+    }
+    
+    void emailSender() throws UnsupportedEncodingException {
+        final String user = "parkroyalhcm@gmail.com";
+        final String password = "vjzq rdvo hmdt mmiq";
+
+        Properties prop = new Properties();
+        prop.put("mail.smtp.host", "smtp.gmail.com");
+        prop.put("mail.smtp.port", "587");
+        prop.put("mail.smtp.auth", "true");
+        prop.put("mail.smtp.starttls.enable", "true");
+
+        Session session = Session.getInstance(prop, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(user, password);
+            }
+
+        });
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(user, "noreply"));
+            message.setRecipients(
+                    Message.RecipientType.TO,
+                    InternetAddress.parse(dao.findById(txtUsername.getText()).getEmail())
+            );
+            message.setSubject("Xác nhận tạo lại mật khẩu");
+
+            message.setText("Mã xác nhận của bạn là: " + code);
+            MailSender.queue(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    static String code = generateCode();
+    
+    private static String generateCode() {
+        Random random = new Random();
+        int code = 100000 + random.nextInt(900000); // Tạo mã xác nhận 6 chữ số
+        return String.valueOf(code);
+    }
+    
+    private String newPassword;
+    
+    void forget() {
+        try {
+            this.emailSender();
+            String i = DialogHelper.prompt(this, "Mã xác thực đã được gửi đến email của bạn, vui lòng nhập mã để xác thực:");
+            if (i.equals(code)) {
+                DialogHelper.alert(this, "Mã xác thực trùng khớp!");
+                while (true) {
+                    this.newPass();
+                    if (this.newPassword.length() >= 4) {
+                        User model = getForm();
+                        dao.update(model);
+                        DialogHelper.alert(this, "Tạo lại mật khẩu thành công thành công!");
+                        break;
+                    } else {
+                        DialogHelper.alert(this, "Mật khẩu phải có ít nhất 4 ký tự. Vui lòng nhập lại!");
+                    }
+                }
+            } else {
+                DialogHelper.alert(this, "Mã xác thực không trùng khớp!");
+                DialogHelper.alert(this, "Tạo lại mật khẩu thất bại!");
+            }
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(DangKyJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    User getForm() {
+        User user = new User();
+        user.setUsername(txtUsername.getText());
+        user.setPassword(this.newPassword);
+        user.setFullName(dao.findById(txtUsername.getText()).getFullName());
+        user.setEmail(dao.findById(txtUsername.getText()).getEmail());
+        user.setRole(dao.findById(txtUsername.getText()).isRole());
+        return user;
+    }
+    
+    void newPass() {
+        this.newPassword = DialogHelper.prompt(this, "Nhập mật khẩu mới:");
+    }
+    
     
     // con bò ngồi cạnh con nai
     /**
