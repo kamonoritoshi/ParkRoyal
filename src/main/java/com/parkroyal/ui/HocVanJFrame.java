@@ -10,7 +10,9 @@ import com.parkroyal.helper.DateHelper;
 import com.parkroyal.helper.DialogHelper;
 import com.parkroyal.helper.ShareHelper;
 import com.parkroyal.model.HocVan;
+import com.parkroyal.model.NhanVien;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -37,6 +39,7 @@ public class HocVanJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSpinner1 = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
         tabs = new javax.swing.JTabbedPane();
         pnlEdit = new javax.swing.JPanel();
@@ -60,7 +63,7 @@ public class HocVanJFrame extends javax.swing.JFrame {
         btnNext = new javax.swing.JButton();
         btnLast = new javax.swing.JButton();
         lblTenNV = new javax.swing.JLabel();
-        txtTenNV = new javax.swing.JTextField();
+        cboTenNV = new javax.swing.JComboBox<>();
         pnlList = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblHocVan = new javax.swing.JTable();
@@ -68,6 +71,11 @@ public class HocVanJFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Quản Lý Bằng Cấp");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -151,8 +159,6 @@ public class HocVanJFrame extends javax.swing.JFrame {
         lblTenNV.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTenNV.setText("Tên nhân viên:");
 
-        txtTenNV.setEditable(false);
-
         javax.swing.GroupLayout pnlEditLayout = new javax.swing.GroupLayout(pnlEdit);
         pnlEdit.setLayout(pnlEditLayout);
         pnlEditLayout.setHorizontalGroup(
@@ -163,8 +169,8 @@ public class HocVanJFrame extends javax.swing.JFrame {
                     .addGroup(pnlEditLayout.createSequentialGroup()
                         .addComponent(lblTenNV, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTenNV)
-                        .addContainerGap())
+                        .addComponent(cboTenNV, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(pnlEditLayout.createSequentialGroup()
                         .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlEditLayout.createSequentialGroup()
@@ -216,7 +222,7 @@ public class HocVanJFrame extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTenNV)
-                    .addComponent(txtTenNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboTenNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblLoaiCC)
@@ -346,6 +352,10 @@ public class HocVanJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblHocVanMouseClicked
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        this.fillComboBoxNV();
+    }//GEN-LAST:event_formWindowOpened
+
     int row = -1;
     HocVanDAO dao = new HocVanDAO();
     NhanVienDAO nvdao = new NhanVienDAO();
@@ -421,7 +431,7 @@ public class HocVanJFrame extends javax.swing.JFrame {
     
     void clearForm() {
         txtMaHV.setText("0");
-        txtTenNV.setText("");
+        cboTenNV.setSelectedIndex(0);
         txtLoaiCC.setText("");
         txaMoTa.setText("");
         txtNgayCap.setText("");
@@ -440,7 +450,7 @@ public class HocVanJFrame extends javax.swing.JFrame {
     
     void setForm(HocVan hv) {
         txtMaHV.setText(String.valueOf(hv.getMaHV()));
-        txtTenNV.setText(String.valueOf(nvdao.findById(hv.getMaNV()).getHoTen()));
+        cboTenNV.setSelectedIndex(hv.getMaNV() - 1);
         txtLoaiCC.setText(hv.getLoaiCC());
         txaMoTa.setText(hv.getMoTa());
         txtNgayCap.setText(DateHelper.toString(hv.getNgayCap(), "dd/MM/yyyy"));
@@ -454,7 +464,7 @@ public class HocVanJFrame extends javax.swing.JFrame {
         hv.setMoTa(txaMoTa.getText());
         hv.setNgayCap(DateHelper.toDate(txtNgayCap.getText(), "dd/MM/yyyy"));
         hv.setHieuLuc(txtHieuLuc.getText());
-        hv.setMaNV(nvdao.findByHoTen(txtTenNV.getText()).getMaNV());
+        hv.setMaNV(cboTenNV.getSelectedIndex() + 1);
         return hv;
     }
     
@@ -494,8 +504,19 @@ public class HocVanJFrame extends javax.swing.JFrame {
         btnNext.setEnabled(edit && !last);
         btnLast.setEnabled(edit && !last);
     }
-    
-    
+
+    void fillComboBoxNV() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cboTenNV.getModel();
+        model.removeAllElements();
+        try {
+            List<NhanVien> list = nvdao.select();
+            for (NhanVien nv : list) {
+                model.addElement(nv);
+            }
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn nhân viên!");
+        }
+    }
     
     /**
      * @param args the command line arguments
@@ -542,9 +563,11 @@ public class HocVanJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnXoa;
+    private javax.swing.JComboBox<String> cboTenNV;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JLabel lblHieuLuc;
     private javax.swing.JLabel lblLoaiCC;
     private javax.swing.JLabel lblMaHV;
@@ -560,6 +583,5 @@ public class HocVanJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtLoaiCC;
     private javax.swing.JTextField txtMaHV;
     private javax.swing.JTextField txtNgayCap;
-    private javax.swing.JTextField txtTenNV;
     // End of variables declaration//GEN-END:variables
 }
