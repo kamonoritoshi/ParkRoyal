@@ -281,8 +281,12 @@ public class DangKyJFrame extends javax.swing.JFrame {
             DialogHelper.alert(this, "Thiếu họ tên!");
         } else if (!password.equals(confirmPassword)) {
             DialogHelper.alert(this, "Xác nhận mật khẩu không đúng!");
-        } else if (password.length() < 4) {
-            DialogHelper.alert(this, "Mật khẩu quá ngắn!");
+        } else if (password.length() < 6) {
+            DialogHelper.alert(this, "Mật khẩu cần tối thiểu 6 ký tự!");
+        } else if (!password.matches(".*[A-Z].*")) {
+            DialogHelper.alert(this, "Mật khẩu phải chứa ít nhất 1 ký tự in hoa!");
+        } else if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
+            DialogHelper.alert(this, "Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt!");
         } else {
             this.emailSender();
             String i = DialogHelper.prompt(this, "Mã xác thực đã được gửi đến email của bạn, vui lòng nhập mã để xác thực:");

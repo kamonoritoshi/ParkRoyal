@@ -17,6 +17,13 @@ public class TuyenDung {
     private Date ngaySinh;
     private Date ngayNopHS;
 
+    @Override
+    public String toString() {
+        return String.valueOf(maTD) + " - " + String.valueOf(hoTen);
+    }
+
+    
+    
     public int getMaTD() {
         return maTD;
     }
